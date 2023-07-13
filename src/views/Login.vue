@@ -47,10 +47,35 @@
         loading: false,
       }),
       methods: {
-        onSubmit () {
+        async onSubmit () {
           if (!this.form) return
           this.loading = true
-          setTimeout(() => (this.loading = false), 2000)
+
+          // setTimeout(() => (this.loading = false), 2000)
+
+          try {
+          let data={
+        email: this.email,
+        password: this.password
+          }
+
+      console.log(data)
+      const res= await fetch('http://localhost:3001/user/login',{
+        method: 'POST',
+        headers: {'content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      });
+      data= await res.json();
+      this.loading = false;
+      console.log(data);
+      this.$store.commit('setToken', data.accessToken);
+      // console.log(this.$store.getters.getToken)
+
+      this.$router.push('/menu')
+      } catch (error) {
+          console.log(error);
+          this.loading = false;
+        }
         },
         required (v) {
           return !!v || 'Field is required'
