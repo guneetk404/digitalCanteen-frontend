@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <v-app>
     <default-bar />
@@ -7,6 +8,6 @@
 </template>
 
 <script setup>
-  import DefaultBar from './AppBar.vue'
+  import DefaultBar from '../../components/Navbar.vue'
   import DefaultView from './View.vue'
 </script>

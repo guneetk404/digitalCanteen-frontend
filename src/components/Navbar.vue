@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <v-app-bar :elevation="5">
+    <v-app-bar  :elevation="5">
       
       
       <v-menu
@@ -37,16 +37,16 @@
           color="indigo"
           v-bind="props"
         >
-        <v-icon icon="mdi-account" />
+        <v-icon @click="accountInfo" icon="mdi-account" />
   
         </v-btn>
       </template>
   
-      <v-card min-width="300">
-        <v-list>
-          <v-list-item
-            title="Guneet Singh"
-            subtitle="guneetk404@gmail.com"
+      <v-card min-width="300"  >
+        <v-list >
+          <v-list-item 
+            :title="userName"
+            :subtitle=" userEmail "
           >
             <!-- <template v-slot:append>
               <v-btn
@@ -90,10 +90,10 @@
           >
             Cancel
           </v-btn>
-          <v-btn
+          <v-btn 
             color="primary"
             variant="text"
-            @click="menu = false"
+            @click= "onLogout"
           >
             Logout
           </v-btn>
@@ -107,6 +107,9 @@
   
   
   <script>
+import router from '@/router';
+import store from '@/store';
+
     export default {
       data: () => ({
         items: [
@@ -119,6 +122,49 @@
         menu: false,
         message: false,
         hints: true,
+        userEmail: null,
+        userName: null
+        
+        
       }),
+      methods: {
+        async onLogout () {
+          this.menu = false;
+          router.push('/logout')
+          console.log('logged out successfully');
+
+
+     
+        },
+        async accountInfo () {
+          console.log(store.getters.getToken)
+          const res= await fetch('http://localhost:3001/user/verify',{
+        method: 'POST',
+        headers: {'content-Type': 'application/json',
+        'x-access-token' : localStorage.getItem('token')
+      },
+      
+      });
+      const data= await res.json();
+      // console.log("from navbar",data.body.email);
+      const res1= await fetch(`http://localhost:3001/user/${data.body.email}`,{
+        method: 'POST',
+        headers: {'content-Type': 'application/json',
+        'x-access-token' : localStorage.getItem('token')
+      },
+      
+      });
+      const data1=await res1.json();
+
+      this.userEmail=data1.body.email
+      this.userName=data1.body.name
+
+        
+          // console.log("from navbar",this.userName);
+
+
+     
+        }
+      },
     }
   </script>

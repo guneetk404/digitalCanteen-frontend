@@ -3,7 +3,7 @@
 <template>
   
   
-  <MenuBar/>
+  <Menu/>
   <Footer/>
 </template>
 
@@ -11,6 +11,6 @@
   // import HelloWorld from '@/components/HelloWorld.vue'
   // import Navbar from '@/components/Navbar.vue'
 
-  import MenuBar from './Menu.vue'
+  import Menu from './Menu.vue'
   import Footer from '@/components/Footer.vue';
 </script>

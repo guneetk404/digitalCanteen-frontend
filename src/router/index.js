@@ -1,56 +1,97 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
+import store from '../store/index'
 
-import Menu from '../views/Menu.vue'
-import Login from '../views/Login.vue'
-// import Home from '../views/Home'
-import Signup from '../views/Signup.vue'
-import Cart from '../views/Cart.vue'
-import User from '../views/User'
+// console.log(this.$store);
 
 const routes = [
-  {
-    path: '/',
-    component: () => import('@/layouts/default/Default.vue'),
-    children: [
       {
-        path: '',
-        name: 'Home',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
+        path: '/',
+        component: () => import('@/layouts/default/Default.vue'),
+        children: [
+          {
+            path: '',
+            name: 'Home',
+            component: () => import('@/views/Home.vue'),
+          },
+          
+        ],
       },
-      
-    ],
-  },
   
-  {
-        path: '/login',
-        name: 'Login',
-        component: Login
+      {
+            path: '/login',
+            component: () => import('@/layouts/default/Default.vue'),
+        children: [
+          {
+            path: '',
+            name: 'Login',
+            component: () => import('@/views/Login.vue'),
+          },
+          
+        ],
+            
       },
       {
         path: '/user/:id',
+        component: () => import('@/layouts/default/Default.vue'),
+    children: [
+      {
+        path: '',
         name: 'User',
-        component: User,
+        component: () => import('@/views/User.vue'),
         props: true
       },
-      {
-        path: '/signup',
-        name: 'Signup',
-        component: Signup
-      },
-      {
-        path: '/cart',
-        name: 'Cart',
-        component: Cart
-      },
-      {
-        path: '/menu',
-        name: 'Menu',
-        component: Menu
-      },
+      
+    ],
+        
+  },
+  {
+    path: '/signup',
+    component: () => import('@/layouts/default/Default.vue'),
+children: [
+  {
+    path: '',
+    name: 'Signup',
+    component: () => import('@/views/Signup.vue'),
+  },
+  
+],
+    
+},
+{
+  path: '/cart',
+  component: () => import('@/layouts/default/Default.vue'),
+children: [
+{
+  path: '',
+  name: 'Cart',
+  component: () => import('@/views/Cart.vue'),
+},
+
+],
+  
+},
+      // {
+      //   path: '/user/:id',
+      //   name: 'User',
+      //   component: User,
+      //   props: true
+      // },
+      // {
+      //   path: '/signup',
+      //   name: 'Signup',
+      //   component: Signup
+      // },
+      // {
+      //   path: '/cart',
+      //   name: 'Cart',
+      //   component: Cart
+      // },
+      // {
+      //   path: '/menu',
+      //   name: 'Menu',
+      //   component: Menu
+      // },
 
     
 ]
@@ -58,6 +99,33 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+})
+router.beforeEach( (to, from) => {
+  if(to.path=='/logout'){
+    localStorage.clear();
+    store.commit('setToken',null)
+    router.push('/login')
+  }
+  if(to.path=='/login'){
+    const token= localStorage.getItem('token')
+    console.log('in routes login page')
+    if(token && token===store.getters.getToken){
+      
+      console.log('you are already logged in')
+      router.push('/')
+    }
+  }
+  if(to.path=='/signup'){
+    const token= localStorage.getItem('token')
+    console.log('in routes login page')
+    if(token && token===store.getters.getToken){
+      
+      console.log('you are already logged in, logout first to create new user')
+      router.push('/')
+    }
+  }
+  return true;
+
 })
 
 export default router

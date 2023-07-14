@@ -14,7 +14,7 @@
             clearable
             label="Email"
           ></v-text-field>
-          <v-text-field
+          <v-text-field 
             v-model="password"
             :readonly="loading"
             :rules="[required]"
@@ -68,10 +68,10 @@
       data= await res.json();
       this.loading = false;
       console.log(data);
-      this.$store.commit('setToken', data.accessToken);
-      // console.log(this.$store.getters.getToken)
-
-      this.$router.push('/menu')
+      await this.$store.commit('setToken', data.accessToken);
+       localStorage.setItem('token', data.accessToken);
+      console.log("token set in localstorage")
+      this.$router.push('/')
       } catch (error) {
           console.log(error);
           this.loading = false;
