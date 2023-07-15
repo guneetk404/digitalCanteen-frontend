@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <v-sheet id="01" class="bg-deep-purple pa-12" rounded>
+    <v-sheet id="01" class="login-container pa-12" rounded>
       <v-card class="mx-auto px-6 py-8" max-width="344">
         <v-form
           v-model="form"
@@ -84,4 +84,12 @@
     }
   </script>
   <style>
+  .login-container{
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 40px;
+    padding: 10% !important;
+    background-color: hsl(245, 53%, 47%) !important;
+    border-radius: 20px !important;
+  }
   </style>

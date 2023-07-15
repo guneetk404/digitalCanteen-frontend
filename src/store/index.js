@@ -8,11 +8,18 @@ export default createStore({
     })],
    state(){
     return {
-        token: null
+        token: null,
+        cartItems:[]
     }},
     mutations:{
         setToken(state, payload){
             state.token= payload
+        },
+        setCart(state, payload){
+            state.cartItems.push(payload)
+        },
+        clearCart(state){
+            state.cartItems=[]
         }
     },
     actions:{
@@ -21,6 +28,9 @@ export default createStore({
     getters:{
         getToken(state){
             return state.token;
+        },
+        getCart(state){
+            return state.cartItems
         }
     },
     modules:{

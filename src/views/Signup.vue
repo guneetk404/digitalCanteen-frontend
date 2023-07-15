@@ -4,6 +4,7 @@
     class="mx-auto"
     max-width="344"
     title="User Registration"
+    style="margin-top: 50px;"
   >
     <v-container>
       <v-text-field

@@ -32,12 +32,12 @@ const routes = [
             
       },
       {
-        path: '/user/:id',
+        path: '/user/profile',
         component: () => import('@/layouts/default/Default.vue'),
     children: [
       {
         path: '',
-        name: 'User',
+        name: 'Profile',
         component: () => import('@/views/User.vue'),
         props: true
       },
@@ -45,6 +45,20 @@ const routes = [
     ],
         
   },
+  {
+    path: '/user/orders',
+    component: () => import('@/layouts/default/Default.vue'),
+children: [
+  {
+    path: '',
+    name: 'Orders',
+    component: () => import('@/views/Orders.vue'),
+    props: true
+  },
+  
+],
+    
+},
   {
     path: '/signup',
     component: () => import('@/layouts/default/Default.vue'),
@@ -59,7 +73,7 @@ children: [
     
 },
 {
-  path: '/cart',
+  path: '/user/cart',
   component: () => import('@/layouts/default/Default.vue'),
 children: [
 {
@@ -70,58 +84,42 @@ children: [
 
 ],
   
-},
-      // {
-      //   path: '/user/:id',
-      //   name: 'User',
-      //   component: User,
-      //   props: true
-      // },
-      // {
-      //   path: '/signup',
-      //   name: 'Signup',
-      //   component: Signup
-      // },
-      // {
-      //   path: '/cart',
-      //   name: 'Cart',
-      //   component: Cart
-      // },
-      // {
-      //   path: '/menu',
-      //   name: 'Menu',
-      //   component: Menu
-      // },
-
-    
+}, 
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 })
-router.beforeEach( (to, from) => {
+router.beforeEach( (to) => {
   if(to.path=='/logout'){
     localStorage.clear();
     store.commit('setToken',null)
     router.push('/login')
   }
-  if(to.path=='/login'){
+  // if(to.path=='/login'){
+  //   const token= localStorage.getItem('token')
+  //   console.log('in routes login page', from.path)
+  //   if(token && token===store.getters.getToken){
+      
+  //     console.log('you are already logged in')
+  //     router.push('/')
+  //   }
+  // }
+  if(to.path=='/signup' || to.path=='/login'){
     const token= localStorage.getItem('token')
     console.log('in routes login page')
     if(token && token===store.getters.getToken){
-      
       console.log('you are already logged in')
       router.push('/')
     }
   }
-  if(to.path=='/signup'){
+  if(to.path=='/user/profile' ||to.path=='/user/orders' || to.path=='/user/cart'){
     const token= localStorage.getItem('token')
-    console.log('in routes login page')
-    if(token && token===store.getters.getToken){
-      
-      console.log('you are already logged in, logout first to create new user')
-      router.push('/')
+    console.log('in routes login verification page')
+    if(!(token && token===store.getters.getToken)){
+      console.log('Please login first')
+      router.push('/login')
     }
   }
   return true;
