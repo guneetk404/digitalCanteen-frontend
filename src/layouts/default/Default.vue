@@ -8,6 +8,6 @@
 </template>
 
 <script setup>
-  import DefaultBar from '../../components/Navbar.vue'
-  import DefaultView from './View.vue'
+import DefaultBar from "../../components/Navbar.vue";
+import DefaultView from "./View.vue";
 </script>

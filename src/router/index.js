@@ -79,7 +79,7 @@ children: [
 {
   path: '',
   name: 'Cart',
-  component: () => import('@/views/Cart.vue'),
+  component: () => import('@/views/PaymentPage.vue'),
 },
 
 ],
@@ -116,7 +116,7 @@ router.beforeEach( (to) => {
   }
   if(to.path=='/user/profile' ||to.path=='/user/orders' || to.path=='/user/cart'){
     const token= localStorage.getItem('token')
-    console.log('in routes login verification page')
+    console.log('in routes user verification page')
     if(!(token && token===store.getters.getToken)){
       console.log('Please login first')
       router.push('/login')

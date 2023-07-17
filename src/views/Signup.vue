@@ -4,7 +4,7 @@
     class="mx-auto"
     max-width="344"
     title="User Registration"
-    style="margin-top: 50px;"
+    style="margin-top: 50px"
   >
     <v-container>
       <v-text-field
@@ -58,37 +58,35 @@
 </template>
 
 <script>
-  export default {
-    data: () => ({
-      first: null,
-      last: null,
-      email: null,
-      password: null,
-      terms: false,
-    }),
-    methods:{
-      async handleSubmit(){
-        try {
-          let data={
-        name: this.first+" "+this.last,
-        email: this.email,
-        password: this.password
-          }
-      // console.log(data)
-      const res= await fetch('http://localhost:3001/user/signup',{
-        method: 'POST',
-        headers: {'content-Type': 'application/json'},
-        body: JSON.stringify(data)
-      });
-      data= await res.json();
-      console.log(data.message)
-      this.$router.push('/login')
+export default {
+  data: () => ({
+    first: null,
+    last: null,
+    email: null,
+    password: null,
+    terms: false,
+  }),
+  methods: {
+    async handleSubmit() {
+      try {
+        let data = {
+          name: this.first + " " + this.last,
+          email: this.email,
+          password: this.password,
+        };
+        // console.log(data)
+        const res = await fetch("http://localhost:3001/user/signup", {
+          method: "POST",
+          headers: { "content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        data = await res.json();
+        console.log(data.message);
+        this.$router.push("/login");
       } catch (error) {
-          console.log(error);
-        }
-
+        console.log(error);
+      }
     },
-  }
-   
-  }
+  },
+};
 </script>

@@ -1,8 +1,9 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <!-- eslint-disable vue/valid-v-slot -->
 <!-- eslint-disable vue/multi-word-component-names -->
 
 <template>
-  <h2 class="hi">your orders will be displayed here</h2>
+  <h2 class="hi">All orders</h2>
   <v-card>
     <v-card-title>
       Search For your Favourite Orders
@@ -22,7 +23,7 @@
       :search="search"
       @click:row="showOrderDetails"
     >
-    <template v-slot:item.orderid="{ item }">
+      <template v-slot:item.orderid="{ item }">
         <order-details :item="item.raw"></order-details>
       </template>
     </v-data-table>
@@ -131,7 +132,7 @@ export default {
 }
 .hi {
   background-color: hsl(245, 53%, 47%);
-  color: #FFFFFF;
+  color: #ffffff;
   padding: 38px 0px 26px 0;
   grid-column: 1/-1;
   text-align: center;
