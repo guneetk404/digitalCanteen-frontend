@@ -23,7 +23,13 @@
       </v-list>
     </v-menu>
 
-    
+    <v-list-item>
+      <router-link to="/" class="hbtn">
+        <v-btn color="indigo">
+          <v-icon icon="mdi-home" />
+        </v-btn>
+      </router-link>
+    </v-list-item>
     <template v-slot:append>
       <v-menu v-model="menu" :close-on-content-click="false" location="end">
         <template v-slot:activator="{ props }">
@@ -78,6 +84,14 @@
           </v-card-actions>
         </v-card>
       </v-menu>
+
+      <v-list-item>
+        <router-link to="/user/cart" class="hbtn">
+          <v-btn color="indigo">
+            <v-icon icon="mdi-cart" />
+          </v-btn>
+        </router-link>
+      </v-list-item>
     </template>
   </v-app-bar>
 </template>
@@ -106,129 +120,43 @@ export default {
   methods: {
     async onLogout() {
       this.menu = false;
-      (this.logoutValue = "Login"), router.push("/logout");
-      (this.userEmail = null),
-        (this.userName = "Login for better experience"),
-        (this.logoutValue = "Login");
-      console.log("logged out successfully");
+      if (this.logoutValue == "Logout") {
+        router.push("/logout");
+        (this.userEmail = null),
+          (this.userName = "Login for better experience"),
+          (this.logoutValue = "Login");
+        console.log("logged out successfully");
+      } else {
+        router.push("/login");
+      }
     },
     async onList(name) {
       console.log(name);
       if (name == "Profile") router.push(`/user/profile`);
 
       if (name == "Menu") router.push(`/`);
-      if (name == "Cart") router.push(`/user/profile`);
+      if (name == "Cart") router.push(`/user/cart`);
       if (name == "Orders") router.push(`/user/orders`);
     },
   },
-  // async beforeUpdate(){
-  //   if(store.getters.getToken){
-  //       console.log("before update called")
-  //     const res= await fetch('http://localhost:3001/user/verify',{
-  //   method: 'POST',
-  //   headers: {'content-Type': 'application/json',
-  //   'x-access-token' : localStorage.getItem('token')
-  // }});
-  // const data= await res.json();
-  // console.log("from navbar",data);
-  // if(data.success)
-  // {
-  //   const res1= await fetch(`http://localhost:3001/user/${data.body.email}`,{
-  //   method: 'POST',
-  //   headers: {'content-Type': 'application/json',
-  //   'x-access-token' : localStorage.getItem('token')
-  // },
 
-  // });
-  // const data1=await res1.json();
-  // if(data1.success){
-  //   this.userEmail=data1.body.email
-  // this.userName=data1.body.name
-  // }
-  // else{
-  //   console.log('not able to verify user')
-  //   this.userEmail=null
-  // this.userName="Login for better experience"
-  // }
-  // }
-  // else{
-  //   console.log('not able to verify user')
-  //   this.userEmail=null
-  // this.userName="Login for better experience"
-  // }
-
-  //     }
-  //     else{
-  //       this.userEmail=null
-  // this.userName="Login for better experience"
-  //     }
-  //     // console.log("from navbar",this.userName)
-  // },
   async mounted() {
-
     try {
-      const data= await userDetails();
+      const data = await userDetails();
       console.log(data);
-      if(data.success){
+      if (data?.success) {
         this.userEmail = data.body.email;
-          this.userName = data.body.name;
-          this.logoutValue = "Logout";
-          return;
+        this.userName = data.body.name;
+        this.logoutValue = "Logout";
+        return;
       }
     } catch (error) {
-      console.log("error", error)
+      console.log("error", error);
     }
     console.log("not able to verify user");
-          this.userEmail = null;
-          this.userName = "Login for better experience";
-          this.logoutValue = "Login";
-
-
-    // if (store.getters.getToken) {
-    //   console.log("before update called");
-    //   const res = await fetch("http://localhost:3001/user/verify", {
-    //     method: "POST",
-    //     headers: {
-    //       "content-Type": "application/json",
-    //       "x-access-token": localStorage.getItem("token"),
-    //     },
-    //   });
-    //   const data = await res.json();
-    //   console.log("from navbar", data);
-    //   if (data.success) {
-    //     const res1 = await fetch(
-    //       `http://localhost:3001/user/${data.body.email}`,
-    //       {
-    //         method: "POST",
-    //         headers: {
-    //           "content-Type": "application/json",
-    //           "x-access-token": localStorage.getItem("token"),
-    //         },
-    //       }
-    //     );
-    //     const data1 = await res1.json();
-    //     if (data1.success) {
-    //       this.userEmail = data1.body.email;
-    //       this.userName = data1.body.name;
-    //       this.logoutValue = "Logout";
-    //     } else {
-    //       console.log("not able to verify user");
-    //       this.userEmail = null;
-    //       this.userName = "Login for better experience";
-    //       this.logoutValue = "Login";
-    //     }
-    //   } else {
-    //     console.log("not able to verify user");
-    //     this.userEmail = null;
-    //     this.userName = "Login for better experience";
-    //     this.logoutValue = "Login";
-    //   }
-    // } else {
-    //   this.userEmail = null;
-    //   this.userName = "Login for better experience";
-    //   this.logoutValue = "Login";
-    // }
-    // console.log("from navbar",this.userName)
+    this.userEmail = null;
+    this.userName = "Login for better experience";
+    this.logoutValue = "Login";
   },
 };
 </script>

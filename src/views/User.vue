@@ -38,7 +38,8 @@ export default {
           (this.logoutValue = "Login");
         console.log("logged out successfully");
       } else {
-        console.log("");
+        router.push('/login')
+        console.log("problem in logout");
       }
     },
   },

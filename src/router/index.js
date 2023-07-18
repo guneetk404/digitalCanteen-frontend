@@ -79,7 +79,7 @@ children: [
 {
   path: '',
   name: 'Cart',
-  component: () => import('@/views/PaymentPage.vue'),
+  component: () => import('@/views/Cart.vue'),
 },
 
 ],
@@ -114,7 +114,7 @@ router.beforeEach( (to) => {
       router.push('/')
     }
   }
-  if(to.path=='/user/profile' ||to.path=='/user/orders' || to.path=='/user/cart'){
+  if(to.path=='/user/profile' ||to.path=='/user/orders' || to.path=='/user/cart' || to.path=='/user/profile'){
     const token= localStorage.getItem('token')
     console.log('in routes user verification page')
     if(!(token && token===store.getters.getToken)){

@@ -2,12 +2,12 @@
   <v-col cols="auto">
     <v-dialog transition="dialog-top-transition" width="auto">
       <template v-slot:activator="{ props }">
-        <div v-bind="props">{{ item.orderid }}</div>
+        <div v-bind="props">{{ item.id }}</div>
       </template>
       <template v-slot:default="{ isActive }">
         <v-card>
           <v-toolbar class="tool1" title="Order Summary">
-            <span class="idcolor"> order id:{{ item.orderid }} </span>
+            <span class="idcolor"> order id:{{ item.id }} </span>
           </v-toolbar>
           <v-card-text>
             <div>
@@ -17,16 +17,16 @@
                   <tr>
                     <th>Item Name</th>
                     <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Sub Price</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(item, index) in orderItems" :key="index">
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>{{ item.price }}</td>
-                    <td>{{ computeSubPrice(item) }}</td>
+                  <tr v-for="(i, index) in orderItems" :key="index">
+                    <td>{{ i.name }}</td>
+                    <td>{{ i.quantity }}</td>
+                    <td>{{ i.price }}</td>
+                    <td>{{ computeSubPrice(i) }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -51,29 +51,7 @@ export default {
   },
   data() {
     return {
-      orderItems: [
-        { name: "veg maggie", quantity: 2, price: 30 },
-        { name: "sandwich", quantity: 5, price: 20 },
-        { name: "thali", quantity: 5, price: 35 },
-      ],
-      orders: [
-        {
-          orderid: 128,
-          orderItems: [
-            { name: "veg maggie", quantity: 2, price: 30 },
-            { name: "sandwich", quantity: 5, price: 20 },
-            { name: "thali", quantity: 5, price: 35 },
-          ],
-        },
-        {
-          orderid: 122,
-          orderItems: [
-            { name: "veg maggie", quantity: 2, price: 30 },
-            { name: "sandwich", quantity: 5, price: 20 },
-            { name: "thali", quantity: 5, price: 35 },
-          ],
-        },
-      ],
+      orderItems: [],
       selectedOrderId: null,
     };
   },
@@ -86,22 +64,40 @@ export default {
     },
     getSelectedOrderItems() {
       const selectedOrder = this.orders.find(
-        (item) => item.orderid === this.selectedorderid
+        (item) => item.id === this.selectedorderid
       );
       return selectedOrder ? selectedOrder.orderItems : [];
     },
   },
   methods: {
     computeSubPrice(item) {
+      console.log(item);
       return item.quantity * item.price;
     },
+  },
+  async mounted() {
+    try {
+      var itemName = Object.keys(this.item.items);
+      var quantities = Object.values(this.item.items);
+      var price = this.item.prices;
+      for (let i = 0; i < itemName.length; i++) {
+        this.orderItems.push({
+          name: itemName[i],
+          quantity: quantities[i],
+          price: price[i],
+        });
+      }
+      // console.log(price);
+    } catch (error) {
+      console.log("error", error);
+    }
   },
 };
 </script>
 <style>
 .tool1 {
-  background-color: hsl(245, 53%, 47%);
-  color: white;
+  background-color: hsl(245, 53%, 47%) !important;
+  color: white !important;
 }
 table {
   width: 100%;

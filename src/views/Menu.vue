@@ -81,7 +81,7 @@ export default {
     };
   },
   async mounted() {
-    console.log("orders called");
+    console.log("menu called");
     const res = await fetch("http://localhost:3001/items", {
       method: "GET",
       headers: {
@@ -91,9 +91,7 @@ export default {
     });
     const data = await res.json();
     this.items = data.data;
-    // console.log("from navbar", data.data);
-
-    // console.log("from navbar",this.userName)
+   
   },
 };
 </script>

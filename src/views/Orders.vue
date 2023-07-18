@@ -19,22 +19,20 @@
     <v-data-table
       :headers="headers"
       :header-props="{ class: 'custom-header' }"
-      :items="desserts"
+      :items="orders"
       :search="search"
       @click:row="showOrderDetails"
     >
-      <template v-slot:item.orderid="{ item }">
+      <template v-slot:item.id="{ item }">
         <order-details :item="item.raw"></order-details>
       </template>
     </v-data-table>
   </v-card>
-  <div v-if="dialogVisible">
-    <test-com></test-com>
-  </div>
 </template>
 <script>
 import { VDataTable } from "vuetify/labs/VDataTable";
 import OrderDetails from "../components/OrderDetails.vue";
+import userOrders from "../controller/orderController";
 export default {
   orderid: "app-user",
   components: {
@@ -47,79 +45,58 @@ export default {
       headers: [
         {
           align: "start",
-          key: "orderid",
+          key: "id",
           title: "Order ID ",
         },
-        { title: "Order Date", align: "", key: "odate" },
-        { title: "Total Amount", align: "", key: "ototal" },
-        { title: "Timing", align: "", key: "timing" },
+        { title: "Order Date", align: "", key: "date" },
+        { title: "Total Amount", align: "", key: "totalprice" },
+        { title: "Timing", align: "", key: "time" },
       ],
-      desserts: [
-        {
-          orderid: 128,
-          odate: "22-7-2023",
-          ototal: 2451,
-          timing: "Evening",
-          actions: "click",
-        },
-        {
-          orderid: 132,
-          odate: "22-7-2023",
-          ototal: 1245,
-          timing: "Morning",
-          actions: "click",
-        },
-        {
-          orderid: 123,
-          odate: "22-7-2023",
-          ototal: 2415,
-          timing: "Afternoon",
-          actions: "click",
-        },
-        {
-          orderid: 1237,
-          odate: "22-7-2023",
-          ototal: 24445,
-          timing: "Evening",
-          actions: "click",
-        },
-        {
-          orderid: 1236,
-          odate: "22-7-2023",
-          ototal: 2411145,
-          timing: "Afternoon",
-          actions: "click",
-        },
-        {
-          orderid: 1246,
-          odate: "12-7-2023",
-          ototal: 24115,
-          timing: "Morning",
-          actions: "click",
-        },
-        {
-          orderid: 1216,
-          odate: "21-7-2023",
-          ototal: 24145,
-          timing: "Morning",
-          actions: "click",
-        },
-        {
-          orderid: 116,
-          odate: "2-7-2023",
-          ototal: 345,
-          timing: "Morning",
-          actions: "click",
-        },
-      ],
+      orders: [],
       selectedOrder: null,
       dialogVisible: false,
     };
   },
   methods: {
     showOrderDetails() {
+      console.log("I m clciked");
       this.dialogVisible = true;
     },
+  },
+  async mounted() {
+    try {
+      // console.log("pp")
+      const data = await userOrders();
+      if (data?.success) {
+        // console.log(data.data)
+        this.orders = data.data;
+        data.data.forEach((order) => {
+          const timestamp = new Date(Number(order.id));
+          var year = timestamp.getFullYear();
+          var mes = timestamp.getMonth() + 1;
+          var dia = timestamp.getDate();
+          var fecha = dia + "-" + mes + "-" + year;
+          order.date = fecha;
+          // console.log(order.date)
+          // var time = new Date(timestamp * 1000).toTimeString()
+          var time = new Date(timestamp * 1000).toLocaleTimeString();
+
+          if (time.split(":") < "12") {
+            time = "Morning";
+          } else if (time.split(":" < 3)) {
+            time = "Noon";
+          } else {
+            time = "Evening";
+          }
+          order.time = time;
+        });
+
+        return;
+      }
+      console.log("problem in fetching orders");
+    } catch (error) {
+      console.log("error", error);
+    }
   },
 };
 </script>
