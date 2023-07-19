@@ -18,7 +18,7 @@ import store from "@/store";
       // this.loading = false;
       console.log(data);
       if(data.success){
-        await store.commit("setToken", data.accessToken);
+      await store.commit("setToken", data.accessToken);
       localStorage.setItem("token", data.accessToken);
       console.log("token set in localstorage");
       return true;

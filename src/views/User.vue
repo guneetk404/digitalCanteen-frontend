@@ -38,7 +38,7 @@ export default {
           (this.logoutValue = "Login");
         console.log("logged out successfully");
       } else {
-        router.push('/login')
+        router.push("/login");
         console.log("problem in logout");
       }
     },
@@ -83,6 +83,10 @@ export default {
 }
 .user-card {
   text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .user-card-image-container {

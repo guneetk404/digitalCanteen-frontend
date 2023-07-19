@@ -16,68 +16,8 @@ export default {
   components: { SingleCard },
   data() {
     return {
-      items: [
-        {
-          name: "sandwich",
-          desc: "veg sandwich with bla bla bla",
-          price: 25,
-          img: "src/assets/sandwich.png",
-        },
-        {
-          name: "sandwich1",
-          desc: "veg sandwich with bla bla bla",
-          price: 35,
-          img: "src/assets/burger.png",
-        },
-        {
-          name: "sandwich2",
-          desc: "veg sandwich with bla bla bla",
-          price: 25,
-          img: "src/assets/sandwich.png",
-        },
-        {
-          name: "sandwich3",
-          desc: "veg sandwich with bla bla bla",
-          price: 25,
-          img: "src/assets/sandwich.png",
-        },
-        {
-          name: "sandwich4",
-          desc: "veg sandwich with bla bla bla",
-          price: 25,
-          img: "src/assets/sandwich.png",
-        },
-        {
-          name: "sandwich5",
-          desc: "veg sandwich with bla bla bla",
-          price: 25,
-          img: "src/assets/sandwich.png",
-        },
-        {
-          name: "sandwich6",
-          desc: "veg sandwich with bla bla bla",
-          price: 25,
-          img: "src/assets/sandwich.png",
-        },
-        {
-          name: "sandwich7",
-          desc: "veg sandwich with bla bla bla",
-          price: 25,
-          img: "src/assets/sandwich.png",
-        },
-        {
-          name: "sandwich8",
-          desc: "veg sandwich with bla bla bla",
-          price: 25,
-          img: "src/assets/sandwich.png",
-        },
-        {
-          name: "sandwich9",
-          desc: "veg sandwich with bla bla bla",
-          price: 25,
-          img: "src/assets/sandwich.png",
-        },
-      ],
+      items: [],
+      itemsCart: [],
     };
   },
   async mounted() {
@@ -91,7 +31,6 @@ export default {
     });
     const data = await res.json();
     this.items = data.data;
-   
   },
 };
 </script>

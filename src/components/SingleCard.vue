@@ -37,7 +37,7 @@
   </body>
 </template>
 <script>
-import store from "@/store";
+// import store from "@/store";
 export default {
   name: "singleCardMenu",
   props: {
@@ -52,25 +52,32 @@ export default {
     };
   },
   methods: {
-    incrementQuantity() {
+    async incrementQuantity() {
+      // console.log('im here')
       console.log(this.item);
       this.quantity++;
-      store.commit("setCart", [this.item.name, this.quantity]);
+      // var nitem= this.item;
+      //  this.item.quantity=this.quantity;
+
       // Perform add to cart logic for this specific product
-      console.log("Added to cart:", store.getters.getCart);
-      store.commit("clearCart");
+      // console.log("Added to cart:", store.getters.getCart);
+      // store.commit("clearCart");
     },
     decrementQuantity() {
       if (this.quantity > 0) {
         this.quantity--;
+        //     var nitem=this.item;
+        //    nitem.quantity=this.quantity;
+        //  this.$store.commit("setCart", nitem);
       }
     },
-    addToCart() {
-      // store.commit('setCart', [this.product, this.quantity])
-      // // Perform add to cart logic for this specific product
-      // console.log("Added to cart:", store.getters.getCart);
-      console.log("Quantity:", this.quantity);
-    },
+  },
+  async beforeUnmount() {
+    if (this.quantity) {
+      var k = this.item;
+      k.quantity = this.quantity;
+      this.$store.commit("setCart", k);
+    }
   },
 };
 </script>

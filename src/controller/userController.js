@@ -1,4 +1,4 @@
-import router from "@/router";
+// import router from "@/router";
 import store from "@/store";
 
 
@@ -30,8 +30,7 @@ const userDetails=async ()=> {
         return data;
         
     }else{
-      console.log('pls login')
-      router.push('/login')
+      console.log('You are not logged in')
     }
   }
 

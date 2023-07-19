@@ -9,26 +9,30 @@
       <p class="subtitle">
         Thanks for choosing argus canteen , see you soon again
       </p>
-      <div v-for="item in cartItems" :key="item.id" class="cart-item">
-        <div class="plan-box">
-          <div class="plan-box-left">
+      <div class="cart-flex">
+        <div v-for="item in cartItems" :key="item.id" class="cart-item">
+          <div class="plan-box">
+            <!-- <div class="plan-box-left"> -->
             <v-icon icon="mdi-food-fork-drink" />
             <!-- <img src="https://unsplash.com/photos/LxD9fZYR2uw" alt=""> -->
-            <div class="item-details">
+            <!-- <div class="item-details"> -->
+            <div>
               <h3>{{ item.name }}</h3>
               <p>Price: ₹{{ item.price }}</p>
-              <div class="quantity-controls">
-                <button
-                  @click="decreaseQuantity(item)"
-                  :disabled="item.quantity === 1"
-                >
-                  -
-                </button>
-                <p>{{ item.quantity }}</p>
-                <button @click="increaseQuantity(item)">+</button>
-              </div>
             </div>
+            <div class="quantity-controls">
+              <button
+                @click="decreaseQuantity(item)"
+                :disabled="item.quantity === 1"
+              >
+                -
+              </button>
+              <p>{{ item.quantity }}</p>
+              <button @click="increaseQuantity(item)">+</button>
+            </div>
+            <!-- </div> -->
             <button @click="removeItem(item)">Remove</button>
+            <!-- </div> -->
           </div>
         </div>
       </div>
@@ -36,48 +40,44 @@
       <div class="cart-total">
         <h4>Total:₹{{ getTotalPrice() }}</h4>
       </div>
-      <a href="#" class="proceed-btn">Proceed to Payment</a>
+      <a class="proceed-btn" @click="checkout()">Proceed to Payment</a>
     </div>
   </div>
   <!-- for youtube -->
 </template>
 <script>
+// import store from "@/store";
+
 export default {
   data() {
     return {
       cartItems: [
-        {
-          id: 1,
-          name: "Product 1",
-          price: 10.99,
-          quantity: 2,
-          image: "path/to/image1.jpg",
-          showImage: true,
-        },
-        {
-          id: 2,
-          name: "Product 2",
-          price: 5.99,
-          quantity: 1,
-          image: "path/to/image2.jpg",
-          showImage: true,
-        },
-        {
-          id: 3,
-          name: "Product 2",
-          price: 5.99,
-          quantity: 1,
-          image: "path/to/image2.jpg",
-          showImage: true,
-        },
-        {
-          id: 4,
-          name: "Product 2",
-          price: 5.99,
-          quantity: 1,
-          image: "path/to/image2.jpg",
-          showImage: true,
-        },
+        // {
+        //   id: 1,
+        //   name: "Product 1",
+        //   price: 10.99,
+        //   quantity: 2,
+        // },
+        // {
+        //   id: 2,
+        //   name: "Product 2",
+        //   price: 5.99,
+        //   quantity: 1,
+        // },
+        // {
+        //   id: 3,
+        //   name: "Product 2",
+        //   price: 5.99,
+        //   quantity: 1,
+        // },
+        // {
+        //   id: 4,
+        //   name: "Product 2",
+        //   description: "fdf",
+        //   price: 5.99,
+        //   availibiliy: true,
+        //   quantity: 1,
+        // },
         // Add more items here...
       ],
     };
@@ -102,9 +102,30 @@ export default {
         }, 0)
         .toFixed(2);
     },
-    checkout() {
-      // Implement your checkout logic here
-    },
+    // checkout() {
+    //   try {
+    //     store.commit("setCart", this.cartItems);
+    //     console.log("do payment", this.cartItems);
+    //   } catch (error) {
+    //     console.log("error", error);
+    //   }
+    // },
+  },
+  async beforeMount() {
+    try {
+      this.cartItems = await this.$store.getters.getCart;
+      console.log("before mount", this.cartItems);
+    } catch (error) {
+      console.log("error", error);
+    }
+  },
+  async beforeUnmount() {
+    try {
+      await this.$store.commit("setCart", this.cartItems);
+      console.log("do payment", this.cartItems);
+    } catch (error) {
+      console.log("error", error);
+    }
   },
 };
 </script>
@@ -126,30 +147,30 @@ body {
   font-size: 16px;
 }
 .container {
-  position: absolute;
+  /* position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 450px;
+  transform: translate(-50%, -50%); */
+  /* max-width: 650px; */
   background: white;
   border-radius: 20px;
   overflow: hidden;
-  margin-top: 60px;
+  /* margin-top: 60px; */
 }
 .text-content {
   padding: 7%;
   text-align: center;
-  margin-top: 60px;
+  /* margin-top: 60px; */
 }
 .title {
-  margin-top: 25px;
+  /* margin-top: 25px; */
   color: hsl(223, 47%, 23%);
   font-weight: 900;
   font-size: 32px;
   margin-bottom: 20px;
 }
 .text-content p.subtitle {
-  color: #8A8A8A;
+  color: #8a8a8a;
   margin-bottom: 25px;
 }
 .plan-box {
@@ -160,6 +181,7 @@ body {
   padding: 25px;
   align-items: center;
   justify-content: space-between;
+  padding: 25px !important;
 }
 .plan-box-left {
   display: flex;
@@ -176,7 +198,7 @@ body {
 }
 .plan-box-left div p {
   font-size: 14px;
-  color: #8A8A8A;
+  color: #8a8a8a;
 }
 .plan-box a {
   font-weight: 900;
@@ -230,12 +252,12 @@ a.cancel-btn,
   font-size: 13px;
 }
 .text-content {
-  padding: 9% 7%;
+  padding: 3% 6%;
 }
 /* Youtube link */
 .link {
   position: fixed;
-  background-color: #D12322;
+  background-color: #d12322;
   padding: 23px 40px;
   right: -87px;
   border-radius: 5px;
@@ -275,7 +297,7 @@ a.cancel-btn,
 }
 button {
   padding: 8px 12px;
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
   border: none;
   cursor: pointer;
 }
