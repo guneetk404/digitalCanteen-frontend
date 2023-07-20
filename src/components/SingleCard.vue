@@ -53,31 +53,26 @@ export default {
   },
   methods: {
     async incrementQuantity() {
-      // console.log('im here')
-      console.log(this.item);
       this.quantity++;
-      // var nitem= this.item;
-      //  this.item.quantity=this.quantity;
+      if (this.quantity) {
+        var k = this.item;
 
-      // Perform add to cart logic for this specific product
-      // console.log("Added to cart:", store.getters.getCart);
-      // store.commit("clearCart");
-    },
-    decrementQuantity() {
-      if (this.quantity > 0) {
-        this.quantity--;
-        //     var nitem=this.item;
-        //    nitem.quantity=this.quantity;
-        //  this.$store.commit("setCart", nitem);
+        k.quantity = this.quantity;
+        console.log(k.quantity);
+        await this.$store.commit("setCart", k);
       }
     },
-  },
-  async beforeUnmount() {
-    if (this.quantity) {
-      var k = this.item;
-      k.quantity = this.quantity;
-      this.$store.commit("setCart", k);
-    }
+    async decrementQuantity() {
+      if (this.quantity > 0) {
+        this.quantity--;
+        if (this.quantity) {
+          var k = this.item;
+
+          k.quantity = this.quantity;
+          await this.$store.commit("setCart", k);
+        }
+      }
+    },
   },
 };
 </script>

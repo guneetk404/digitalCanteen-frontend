@@ -16,7 +16,7 @@ export default createStore({
             state.token= payload
         },
         setCart(state, payload){
-            console.log(payload)
+            // console.log(payload)
             var found=false;
             state.cartItems.forEach((e)=>{
                 if(e.id==payload.id){
@@ -27,6 +27,10 @@ export default createStore({
             })
             if(!found)
             state.cartItems.push(payload)
+            found=false;
+        },
+        updateCart(state,payload){
+            state.cartItems=payload;
         },
         clearCart(state){
             state.cartItems=[]

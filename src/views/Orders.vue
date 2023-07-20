@@ -32,7 +32,7 @@
 <script>
 import { VDataTable } from "vuetify/labs/VDataTable";
 import OrderDetails from "../components/OrderDetails.vue";
-import userOrders from "../controller/orderController";
+import orderController from "../controller/orderController";
 export default {
   orderid: "app-user",
   components: {
@@ -66,7 +66,7 @@ export default {
   async mounted() {
     try {
       // console.log("pp")
-      const data = await userOrders();
+      const data = await orderController.userOrders();
       if (data?.success) {
         // console.log(data.data)
         this.orders = data.data;

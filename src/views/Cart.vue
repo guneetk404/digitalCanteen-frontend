@@ -47,82 +47,68 @@
 </template>
 <script>
 // import store from "@/store";
+import orderController from "../controller/orderController"
 
 export default {
   data() {
     return {
       cartItems: [
-        // {
-        //   id: 1,
-        //   name: "Product 1",
-        //   price: 10.99,
-        //   quantity: 2,
-        // },
-        // {
-        //   id: 2,
-        //   name: "Product 2",
-        //   price: 5.99,
-        //   quantity: 1,
-        // },
-        // {
-        //   id: 3,
-        //   name: "Product 2",
-        //   price: 5.99,
-        //   quantity: 1,
-        // },
-        // {
-        //   id: 4,
-        //   name: "Product 2",
-        //   description: "fdf",
-        //   price: 5.99,
-        //   availibiliy: true,
-        //   quantity: 1,
-        // },
-        // Add more items here...
       ],
+      total:0
     };
   },
   methods: {
-    removeItem(item) {
+    async removeItem(item) {
       const index = this.cartItems.indexOf(item);
-      this.cartItems.splice(index, 1);
-    },
-    decreaseQuantity(item) {
-      if (item.quantity > 1) {
-        item.quantity--;
+       this.cartItems.splice(index, 1);
+      try {
+        await this.$store.commit("updateCart", this.cartItems);
+        // console.log("do payment", this.cartItems);
+      } catch (error) {
+        console.log("error", error);
       }
     },
-    increaseQuantity(item) {
+    async decreaseQuantity(item) {
+      if (item.quantity > 1) {
+        item.quantity--;
+        try {
+        await this.$store.commit("updateCart", this.cartItems);
+        // console.log("do payment", this.cartItems);
+      } catch (error) {
+        console.log("error", error);
+      }
+      }
+    },
+    async increaseQuantity(item) {
+      // console.log("item ", item);
+      // console.log("do payment", this.cartItems);
       item.quantity++;
+      try {
+       await this.$store.commit("updateCart", this.cartItems);
+        // console.log("do payment", this.cartItems);
+      } catch (error) {
+        console.log("error", error);
+      }
+      
     },
     getTotalPrice() {
-      return this.cartItems
+      this.total=this.cartItems
         .reduce((total, item) => {
           return total + item.price * item.quantity;
         }, 0)
         .toFixed(2);
+        return this.total;
     },
-    // checkout() {
-    //   try {
-    //     store.commit("setCart", this.cartItems);
-    //     console.log("do payment", this.cartItems);
-    //   } catch (error) {
-    //     console.log("error", error);
-    //   }
-    // },
+    async checkout(){
+      console.log('cart items are', this.cartItems[0].name)
+      await orderController.createOrders(this.total,this.cartItems);
+
+    }
   },
   async beforeMount() {
     try {
       this.cartItems = await this.$store.getters.getCart;
-      console.log("before mount", this.cartItems);
-    } catch (error) {
-      console.log("error", error);
-    }
-  },
-  async beforeUnmount() {
-    try {
-      await this.$store.commit("setCart", this.cartItems);
-      console.log("do payment", this.cartItems);
+      // console.log("before mount", this.cartItems);
     } catch (error) {
       console.log("error", error);
     }
