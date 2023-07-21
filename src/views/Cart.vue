@@ -2,7 +2,7 @@
 <template>
   <div class="container">
     <div v-if="cartItems.length === 0">
-      <p>Your cart is empty!</p>
+      <p>Your cart is empty! </p>
     </div>
     <div v-else class="text-content">
       <h2 class="title">Order Summary</h2>
@@ -48,6 +48,8 @@
 <script>
 // import store from "@/store";
 import orderController from "../controller/orderController"
+// import {toast} from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css'
 
 export default {
   data() {
@@ -87,6 +89,7 @@ export default {
        await this.$store.commit("updateCart", this.cartItems);
         // console.log("do payment", this.cartItems);
       } catch (error) {
+
         console.log("error", error);
       }
       
@@ -100,8 +103,9 @@ export default {
         return this.total;
     },
     async checkout(){
-      console.log('cart items are', this.cartItems[0].name)
+      // console.log('cart items are', this.cartItems[0].name)
       await orderController.createOrders(this.total,this.cartItems);
+      // flag?toast.success(`Order placed successfully and order details has been mailed to you`):toast.error('Not able to place ypur order right now');
 
     }
   },
@@ -309,5 +313,8 @@ button {
 .cart-total {
   width: 100%;
   margin-top: 20px;
+}
+p{
+  text-align: center;
 }
 </style>

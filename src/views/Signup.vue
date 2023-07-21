@@ -58,6 +58,9 @@
 </template>
 
 <script>
+import { toast } from 'vue3-toastify';
+import "vue3-toastify/dist/index.css";
+
 export default {
   data: () => ({
     first: null,
@@ -81,7 +84,13 @@ export default {
           body: JSON.stringify(data),
         });
         data = await res.json();
-        console.log(data.message);
+        if(data.success){
+          toast.success("Successfully signed up, kindly login now:)", { autoclose: 2000 });
+
+        }else{
+          toast.error(`${data.message}:)`, { autoclose: 2000 });
+        }
+        // console.log(data.message);
         this.$router.push("/login");
       } catch (error) {
         console.log(error);

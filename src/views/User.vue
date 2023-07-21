@@ -22,6 +22,9 @@
 // import store from "@/store";
 import router from "@/router";
 import userDetails from "@/controller/userController";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
+
 export default {
   data: () => ({
     userEmail: "abc@example.com",
@@ -32,20 +35,25 @@ export default {
     async onLogout() {
       this.menu = false;
       if (this.logoutValue == "Logout") {
+        toast.success("Logged out Successfully", { autoclose: 2000 });
+
         (this.logoutValue = "Login"), router.push("/logout");
         (this.userEmail = null),
           (this.userName = "Login for better experience"),
           (this.logoutValue = "Login");
+
         console.log("logged out successfully");
       } else {
         router.push("/login");
-        console.log("problem in logout");
+        toast.error("Something went wrong in logout", { autoclose: 2000 });
+
+        // console.log("problem in logout");
       }
     },
   },
   async mounted() {
     try {
-      const data = await userDetails();
+      var data = await userDetails();
       if (data.success) {
         this.userEmail = data.body.email;
         this.userName = data.body.name;
@@ -53,9 +61,15 @@ export default {
         return;
       }
     } catch (error) {
+      toast.error(`Something went wrong in fetching your details`, {
+        autoclose: 2000,
+      });
+
       console.log("error", error);
     }
-    console.log("not able to verify user");
+    toast.error(`${data.message}:)`, { autoclose: 2000 });
+
+    // console.log("not able to verify user");
     this.userEmail = null;
     this.userName = "Login for better experience";
     this.logoutValue = "Login";

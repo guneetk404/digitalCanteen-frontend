@@ -1,133 +1,128 @@
 // Composables
-import { createRouter, createWebHistory } from 'vue-router'
-import store from '../store/index'
+import { createRouter, createWebHistory } from "vue-router";
+import store from "../store/index";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 // console.log(this.$store);
 
 const routes = [
-      {
-        path: '/',
-        component: () => import('@/layouts/default/Default.vue'),
-        children: [
-          {
-            path: '',
-            name: 'Home',
-            component: () => import('@/views/Home.vue'),
-          },
-          
-        ],
-      },
-  
-      {
-            path: '/login',
-            component: () => import('@/layouts/default/Default.vue'),
-        children: [
-          {
-            path: '',
-            name: 'Login',
-            component: () => import('@/views/Login.vue'),
-          },
-          
-        ],
-            
-      },
-      {
-        path: '/user/profile',
-        component: () => import('@/layouts/default/Default.vue'),
+  {
+    path: "/",
+    component: () => import("@/layouts/default/Default.vue"),
     children: [
       {
-        path: '',
-        name: 'Profile',
-        component: () => import('@/views/User.vue'),
-        props: true
+        path: "",
+        name: "Home",
+        component: () => import("@/views/Home.vue"),
       },
-      
     ],
-        
   },
-  {
-    path: '/user/orders',
-    component: () => import('@/layouts/default/Default.vue'),
-children: [
-  {
-    path: '',
-    name: 'Orders',
-    component: () => import('@/views/Orders.vue'),
-    props: true
-  },
-  
-],
-    
-},
-  {
-    path: '/signup',
-    component: () => import('@/layouts/default/Default.vue'),
-children: [
-  {
-    path: '',
-    name: 'Signup',
-    component: () => import('@/views/Signup.vue'),
-  },
-  
-],
-    
-},
-{
-  path: '/user/cart',
-  component: () => import('@/layouts/default/Default.vue'),
-children: [
-{
-  path: '',
-  name: 'Cart',
-  component: () => import('@/views/Cart.vue'),
-},
 
-],
-  
-}, 
-]
+  {
+    path: "/login",
+    component: () => import("@/layouts/default/Default.vue"),
+    children: [
+      {
+        path: "",
+        name: "Login",
+        component: () => import("@/views/Login.vue"),
+      },
+    ],
+  },
+  {
+    path: "/user/profile",
+    component: () => import("@/layouts/default/Default.vue"),
+    children: [
+      {
+        path: "",
+        name: "Profile",
+        component: () => import("@/views/User.vue"),
+        props: true,
+      },
+    ],
+  },
+  {
+    path: "/user/orders",
+    component: () => import("@/layouts/default/Default.vue"),
+    children: [
+      {
+        path: "",
+        name: "Orders",
+        component: () => import("@/views/Orders.vue"),
+        props: true,
+      },
+    ],
+  },
+  {
+    path: "/signup",
+    component: () => import("@/layouts/default/Default.vue"),
+    children: [
+      {
+        path: "",
+        name: "Signup",
+        component: () => import("@/views/Signup.vue"),
+      },
+    ],
+  },
+  {
+    path: "/user/cart",
+    component: () => import("@/layouts/default/Default.vue"),
+    children: [
+      {
+        path: "",
+        name: "Cart",
+        component: () => import("@/views/Cart.vue"),
+      },
+    ],
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-})
-router.beforeEach( (to) => {
-  if(to.path=='/logout'){
+});
+router.beforeEach((to) => {
+  if (to.path == "/logout") {
     localStorage.clear();
-    store.commit('setToken',null)
-    router.push('/login')
+    store.commit("setToken", null);
+    router.push("/login");
   }
   // if(to.path=='/login'){
   //   const token= localStorage.getItem('token')
   //   console.log('in routes login page', from.path)
   //   if(token && token===store.getters.getToken){
-      
+
   //     console.log('you are already logged in')
   //     router.push('/')
   //   }
   // }
-  if(to.path=='/signup' || to.path=='/login'){
-    const token= localStorage.getItem('token')
-    console.log('in routes login page')
-    if(token && token===store.getters.getToken){
-      console.log('you are already logged in')
-      router.push('/')
+  if (to.path == "/signup" || to.path == "/login") {
+    const token = localStorage.getItem("token");
+    console.log("in routes login page");
+    if (token && token === store.getters.getToken) {
+      console.log("you are already logged in");
+      router.push("/");
     }
   }
-  if(to.path=='/user/profile' ||to.path=='/user/orders' || to.path=='/user/cart' || to.path=='/user/profile'){
-    const token= localStorage.getItem('token')
-    console.log('in routes user verification page')
-    if(!(token && token===store.getters.getToken)){
-      console.log('Please login first')
-      router.push('/login')
+  if (
+    to.path == "/user/profile" ||
+    to.path == "/user/orders" ||
+    to.path == "/user/cart" ||
+    to.path == "/user/profile"
+  ) {
+    const token = localStorage.getItem("token");
+    console.log("in routes user verification page");
+    if (!(token && token === store.getters.getToken)) {
+      toast.info("Please login first", { autoclose: 2000 });
+      // console.log('Please login first')
+      router.push("/login");
     }
   }
   return true;
+});
 
-})
-
-export default router
-
+export default router;
 
 // import { createRouter, createWebHistory } from 'vue-router'
 // //import Menu from '../views/Menu.vue'

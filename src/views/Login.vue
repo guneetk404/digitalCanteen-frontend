@@ -37,6 +37,8 @@
 </template>
 <script>
 import tryLogin from "../controller/loginController";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 export default {
   data: () => ({
     form: false,
@@ -57,12 +59,16 @@ export default {
         if (await tryLogin(data)) {
           this.loading = false;
           this.$router.push("/");
+          toast.success("Successfully Logged in:)", { autoclose: 2000 });
           return;
         }
-        console.log("try lgging again");
+        // toast.error("try loggin again", { autoclose: 2000 });
+
+        // console.log("try lgging again");
         this.loading = false;
       } catch (error) {
-        console.log(error);
+        // console.log(error);
+        toast.error("try loggin again", { autoclose: 2000 });
         this.loading = false;
       }
     },

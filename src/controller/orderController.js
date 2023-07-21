@@ -1,10 +1,12 @@
 /* eslint-disable no-undef */
 import router from "@/router";
 import store from "@/store";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 const userOrders = async () => {
   if (await store.getters.getToken) {
-    console.log("mounted in orders page");
+    // console.log("mounted in orders page");
     const res = await fetch(`http://localhost:3001/orders`, {
       method: "GET",
       headers: {
@@ -15,31 +17,13 @@ const userOrders = async () => {
     const data = await res.json();
     return data;
   } else {
-    console.log("pls login");
+    toast.info('Kindly log in',{autoclose:1000})
+
+    // console.log("pls login");
     router.push("/login");
   }
 };
 
-// const createOrders = async (totalPrice, cartItems) => {
-//   const d = { totalPrice, cartItems };
-//   if (await store.getters.getToken) {
-//     console.log(d);
-//     const res = await fetch(`http://localhost:3001/orders/insert`, {
-//       method: "POST",
-//       headers: {
-//         "content-Type": "application/json",
-//         "x-access-token": localStorage.getItem("token"),
-//       },
-//       body: JSON.stringify(d),
-//     });
-//     const data = await res.json();
-//     console.log(data.message);
-//     return data;
-//   } else {
-//     console.log("pls login");
-//     router.push("/login");
-//   }
-// };
 const createOrders = async (totalPrice, cartItems) => {
   const d = { totalPrice, cartItems };
   if (await store.getters.getToken) {
@@ -74,10 +58,18 @@ const createOrders = async (totalPrice, cartItems) => {
             body: JSON.stringify(d),
           });
           const data = await res.json();
-        
-          console.log(data.message);
+        if(data.success){
+          toast.success(`${data.message}`,{ autoclose:1000})
+
           router.push('/user/orders')
-          return data;
+        }else{
+          toast.error(`${data.message}`,{ autoclose:2000})
+
+          console.log(data.error);
+        }
+         
+          
+          return data?.success;
         },
         // "prefill": {
         //   "contact":""+res.contact+"",
@@ -96,21 +88,28 @@ const createOrders = async (totalPrice, cartItems) => {
       );
       if (!r) {
         console.log("RAzorpay SDK failed to load");
-        return;
+        return false;
       }
       var razorpayObject = new Razorpay(options);
       razorpayObject.on("payment.failed", function () {
+        toast.error("Payment failed", { autoclose: 2000 });
+
         console.log("Payment Failed");
         router.push("/user/cart");
       });
       razorpayObject.open();
     } else {
-      alert(res.msg);
+      toast.error('cannot open payment page now',{ autoclose:2000})
+
+      // alert(res.msg);
     }
     console.log(data.message);
-    return data;
+    return data?.success;
   } else {
-    console.log("pls login");
+    // toast.no('Removed',{ autoclose:1000})
+    toast.info('Kindly log in',{autoclose:2000})
+
+    // console.log("pls login");
     router.push("/login");
   }
 };

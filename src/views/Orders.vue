@@ -33,6 +33,8 @@
 import { VDataTable } from "vuetify/labs/VDataTable";
 import OrderDetails from "../components/OrderDetails.vue";
 import orderController from "../controller/orderController";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 export default {
   orderid: "app-user",
   components: {
@@ -59,7 +61,7 @@ export default {
   },
   methods: {
     showOrderDetails() {
-      console.log("I m clciked");
+      // console.log("I m clciked");
       this.dialogVisible = true;
     },
   },
@@ -68,6 +70,8 @@ export default {
       // console.log("pp")
       const data = await orderController.userOrders();
       if (data?.success) {
+        toast.success("Your all orders are here:)", { autoclose: 2000 });
+
         // console.log(data.data)
         this.orders = data.data;
         data.data.forEach((order) => {

@@ -12,6 +12,8 @@
 </template>
 <script>
 import SingleCard from "@/components/SingleCard.vue";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 export default {
   components: { SingleCard },
   data() {
@@ -21,7 +23,7 @@ export default {
     };
   },
   async mounted() {
-    console.log("menu called");
+    // console.log("menu called");
     const res = await fetch("http://localhost:3001/items", {
       method: "GET",
       headers: {
@@ -30,6 +32,10 @@ export default {
       },
     });
     const data = await res.json();
+    if(!data.success){
+      toast.error("Something went wrong", { autoclose: 2000 });
+
+    }
     this.items = data.data;
   },
 };

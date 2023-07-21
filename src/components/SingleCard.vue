@@ -58,7 +58,7 @@ export default {
         var k = this.item;
 
         k.quantity = this.quantity;
-        console.log(k.quantity);
+        // console.log(k.quantity);
         await this.$store.commit("setCart", k);
       }
     },

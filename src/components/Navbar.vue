@@ -100,6 +100,8 @@
 import router from "@/router";
 // import store from "@/store";
 import userDetails from "@/controller/userController";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 export default {
   data: () => ({
@@ -125,8 +127,12 @@ export default {
         (this.userEmail = null),
           (this.userName = "Login for better experience"),
           (this.logoutValue = "Login");
-        console.log("logged out successfully");
+          toast.success("Logged out Successfully", { autoclose: 2000 });
+
+        // console.log("logged out successfully");
       } else {
+        // toast.error("Something went wrong in logout", { autoclose: 2000 });
+
         router.push("/login");
       }
     },
@@ -143,7 +149,7 @@ export default {
   async mounted() {
     try {
       const data = await userDetails();
-      console.log(data);
+      // console.log(data);
       if (data?.success) {
         this.userEmail = data.body.email;
         this.userName = data.body.name;
@@ -153,7 +159,7 @@ export default {
     } catch (error) {
       console.log("error", error);
     }
-    console.log("not able to verify user");
+    // console.log("not able to verify user");
     this.userEmail = null;
     this.userName = "Login for better experience";
     this.logoutValue = "Login";
