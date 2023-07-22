@@ -71,7 +71,7 @@ export default {
   },
   methods: {
     computeSubPrice(item) {
-      console.log(item);
+      // console.log(item);
       return item.quantity * item.price;
     },
   },
@@ -80,6 +80,7 @@ export default {
       var itemName = Object.keys(this.item.items);
       var quantities = Object.values(this.item.items);
       var price = this.item.prices;
+      // console.log(this.item.items)
       for (let i = 0; i < itemName.length; i++) {
         this.orderItems.push({
           name: itemName[i],

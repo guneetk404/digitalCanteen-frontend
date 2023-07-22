@@ -10,9 +10,7 @@
             <h5 class="price">{{ item.price }}</h5>
           </div>
           <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit reiciendis
-            nam non quia! Earum eveniet minus. Facilis explicabo natus nihil
-            voluptatem eveniet pariatur.
+            {{ item.description }}
           </p>
           <template v-if="quantity === 0">
             <v-btn class="add-to-cart-button" @click="incrementQuantity"
@@ -54,6 +52,7 @@ export default {
   methods: {
     async incrementQuantity() {
       this.quantity++;
+      console.log(this.item)
       if (this.quantity) {
         var k = this.item;
 

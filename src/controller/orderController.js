@@ -15,6 +15,7 @@ const userOrders = async () => {
       },
     });
     const data = await res.json();
+    // console.log(data.items)
     return data;
   } else {
     toast.info('Kindly log in',{autoclose:1000})

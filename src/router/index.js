@@ -55,6 +55,18 @@ const routes = [
     ],
   },
   {
+    path: "/user/resetpassword",
+    component: () => import("@/layouts/default/Default.vue"),
+    children: [
+      {
+        path: "",
+        name: "resetPassword",
+        component: () => import("../views/forgetPass"),
+        props: true,
+      },
+    ],
+  },
+  {
     path: "/signup",
     component: () => import("@/layouts/default/Default.vue"),
     children: [
@@ -73,6 +85,17 @@ const routes = [
         path: "",
         name: "Cart",
         component: () => import("@/views/Cart.vue"),
+      },
+    ],
+  },
+  {
+    path: "/admin",
+    component: () => import("@/layouts/default/Default.vue"),
+    children: [
+      {
+        path: "",
+        name: "admin",
+        component: () => import("@/views/AdminPage.vue"),
       },
     ],
   },

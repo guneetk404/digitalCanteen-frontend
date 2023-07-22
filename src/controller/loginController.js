@@ -15,7 +15,7 @@ import router from "@/router";
       const res = await fetch("http://localhost:3001/user/login", {
         method: "POST",
         headers: { "content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify(data),         
       });
       data = await res.json();
       // this.loading = false;

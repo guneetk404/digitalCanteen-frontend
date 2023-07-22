@@ -75,6 +75,7 @@ export default {
         // console.log(data.data)
         this.orders = data.data;
         data.data.forEach((order) => {
+          // console.log(order, "ww");
           const timestamp = new Date(Number(order.id));
           var year = timestamp.getFullYear();
           var mes = timestamp.getMonth() + 1;
