@@ -84,7 +84,7 @@ export default {
   margin-right: 20%;
   margin-top: 40px;
   padding: 10% !important;
-  background-color: hsl(245, 53%, 47%) !important;
+  background-color:#802f59 !important;
   border-radius: 20px !important;
 }
 </style>

@@ -82,7 +82,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: hsl(245, 53%, 47%);
+  background-color: #802f59;
   margin-left: 20%;
   margin-right: 20%;
   margin-top: 30px;

@@ -9,21 +9,21 @@
     <v-container>
       <v-text-field
         v-model="first"
-        color="primary"
+        color="#802f59"
         label="First name"
         variant="underlined"
       ></v-text-field>
 
       <v-text-field
         v-model="last"
-        color="primary"
+        color="#802f59"
         label="Last name"
         variant="underlined"
       ></v-text-field>
 
       <v-text-field
         v-model="email"
-        color="primary"
+        color="#802f59"
         label="Email"
         @blur="validateEmail()"
         variant="underlined"
@@ -31,7 +31,7 @@
 
       <v-text-field
         v-model="password"
-        color="primary"
+        color="#802f59"
         label="Password"
         placeholder="Enter your password"
         variant="underlined"
@@ -51,7 +51,7 @@
         label="I agree to site terms and conditions"
       ></v-checkbox>
     </v-container>
-    <v-btn @click="handleSubmit" color="primary" v-if="!showOtpField">
+    <v-btn @click="handleSubmit" color="#802f59" v-if="!showOtpField">
       Request OTP
     </v-btn>
     <v-divider></v-divider>

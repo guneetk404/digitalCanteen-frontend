@@ -203,7 +203,7 @@ a.proceed-btn {
   display: block;
   text-decoration: none;
   color: white;
-  background-color: hsl(245, 75%, 52%);
+  background-color: #802f59;
   padding: 20px 0;
   border-radius: 12px;
   margin: 30px 0;

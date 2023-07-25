@@ -3,7 +3,7 @@
   <v-app-bar :elevation="5">
     <v-menu transition="scale-transition">
       <template v-slot:activator="{ props }">
-        <v-btn color="primary" v-bind="props">
+        <v-btn color="#802f59" v-bind="props">
           <v-icon icon="mdi-menu" />
         </v-btn>
       </template>
@@ -25,7 +25,7 @@
 
     <v-list-item>
       <router-link to="/" class="hbtn">
-        <v-btn color="indigo">
+        <v-btn color="#802f59">
           <v-icon icon="mdi-home" />
         </v-btn>
       </router-link>
@@ -33,7 +33,7 @@
     <template v-slot:append>
       <v-menu v-model="menu" :close-on-content-click="false" location="end">
         <template v-slot:activator="{ props }">
-          <v-btn color="indigo" v-bind="props">
+          <v-btn color="#802f59" v-bind="props">
             <v-icon icon="mdi-account" />
           </v-btn>
         </template>
@@ -87,7 +87,7 @@
 
       <v-list-item>
         <router-link to="/user/cart" class="hbtn">
-          <v-btn color="indigo">
+          <v-btn color="#802f59">
             <v-icon icon="mdi-cart" />
           </v-btn>
         </router-link>

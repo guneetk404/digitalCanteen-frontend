@@ -13,7 +13,7 @@
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ props }">
-            <v-btn color="primary" dark class="mb-2" v-bind="props">
+            <v-btn color="#802f59" dark class="mb-2" v-bind="props">
               New Item
             </v-btn>
           </template>
@@ -61,10 +61,10 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue-darken-1" variant="text" @click="close">
+              <v-btn color="#802f59" variant="text" @click="close">
                 Cancel
               </v-btn>
-              <v-btn color="blue-darken-1" variant="text" @click="save">
+              <v-btn color="#802f59" variant="text" @click="save">
                 Save
               </v-btn>
             </v-card-actions>
@@ -77,11 +77,11 @@
             >
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue-darken-1" variant="text" @click="closeDelete"
+              <v-btn color="#802f59" variant="text" @click="closeDelete"
                 >Cancel</v-btn
               >
               <v-btn
-                color="blue-darken-1"
+                color="#802f59"
                 variant="text"
                 @click="deleteItemConfirm"
                 >OK</v-btn
@@ -99,7 +99,7 @@
       <v-icon size="small" @click="deleteItem(item.raw)"> mdi-delete </v-icon>
     </template>
     <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize"> Reset </v-btn>
+      <v-btn color="#802f59" @click="initialize"> Reset </v-btn>
     </template>
   </v-data-table>
 </template>

@@ -32,9 +32,8 @@ export default {
       },
     });
     const data = await res.json();
-    if(!data.success){
+    if (!data.success) {
       toast.error("Something went wrong", { autoclose: 2000 });
-
     }
     this.items = data.data;
   },
@@ -42,7 +41,7 @@ export default {
 </script>
 <style>
 .heading {
-  background-color: hsl(245, 53%, 47%);
+  background-color: #802f59;
   color: #ffffff;
   margin-bottom: 30px;
   padding: 38px 0px 26px 0;

@@ -113,7 +113,7 @@ export default {
   color: rgb(8, 8, 8) !important;
 }
 .hi {
-  background-color: hsl(245, 53%, 47%);
+  background-color: #802f59;
   color: #ffffff;
   padding: 38px 0px 26px 0;
   grid-column: 1/-1;

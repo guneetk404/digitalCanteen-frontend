@@ -9,7 +9,7 @@
     <v-container>
       <v-text-field
         v-model="email"
-        color="primary"
+        color="#802f59"
         label="Email"
         @blur="validateEmail()"
         variant="underlined"
@@ -18,7 +18,7 @@
       <v-text-field
       v-if="showOtpField"
         v-model="newPassword"
-        color="primary"
+        color="#802f59"
         label="newPassword"
         placeholder="Enter your password"
         variant="underlined"
@@ -26,7 +26,7 @@
       <v-text-field
       v-if="showOtpField"
         v-model="confirmPasswordpassword"
-        color="primary"
+        color="#802f59"
         label="confirmPassword"
         placeholder="Enter your password"
         variant="underlined"
@@ -34,12 +34,12 @@
       <v-text-field
         v-if="showOtpField"
         v-model="otp"
-        color="primary"
+        color="#802f59"
         label="OTP"
         variant="underlined"
       ></v-text-field>
 
-      <v-btn @click="handleSubmit" color="primary" v-if="!showOtpField">
+      <v-btn @click="handleSubmit" color="#802f59" v-if="!showOtpField">
         Request OTP
       </v-btn>
     </v-container>
@@ -49,7 +49,7 @@
     <v-card-actions>
       <v-spacer></v-spacer>
 
-      <v-btn @click="validateOtp" color="success">
+      <v-btn @click="validateOtp" color="#802f59">
         reset Password
 
         <v-icon icon="mdi-chevron-right" end></v-icon>

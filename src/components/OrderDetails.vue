@@ -97,7 +97,7 @@ export default {
 </script>
 <style>
 .tool1 {
-  background-color: hsl(245, 53%, 47%) !important;
+  background-color:#802f59 !important;
   color: white !important;
 }
 table {

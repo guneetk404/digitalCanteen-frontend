@@ -3,11 +3,11 @@
   <body>
     <div class="menu">
       <div class="food-items">
-        <img :src="item.img" alt="abc" />
+        <!-- <img :src="item.img" alt="abc" /> -->
         <div class="details">
           <div class="details-sub">
             <h5>{{ item.name }}</h5>
-            <h5 class="price">{{ item.price }}</h5>
+            <h5 class="price">₹{{ item.price }}</h5>
           </div>
           <p>
             {{ item.description }}
@@ -57,7 +57,7 @@ export default {
         var k = this.item;
 
         k.quantity = this.quantity;
-        // console.log(k.quantity);
+        console.log(k.quantity);
         await this.$store.commit("setCart", k);
       }
     },
@@ -91,7 +91,7 @@ body {
   grid-gap: 20px 40px;
 }
 .heading {
-  background-color: hsl(245, 53%, 47%);
+  background-color: #802f59;
   color: #ffffff;
   margin-bottom: 30px;
   padding: 30px 0 30px 0;
@@ -147,8 +147,7 @@ body {
   align-self: stretch;
 }
 .details > button {
-  background-color: hsl(245, 75%, 52%);
-  border: none;
+  background-color: #802f59;
   color: #ffffff;
   font-size: 16px;
   font-weight: 600;
