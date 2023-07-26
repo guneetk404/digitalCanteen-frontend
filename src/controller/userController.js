@@ -5,7 +5,7 @@ const userDetails = async () => {
   if (store.getters.getToken) {
     console.log("mounted in users page");
 
-    const res = await fetch(`http://localhost:3001/user`, {
+    const res = await fetch(`${import.meta.env.VITE_URL}/user`, {
       method: "POST",
       headers: {
         "content-Type": "application/json",

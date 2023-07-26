@@ -9,6 +9,7 @@
 
       <div class="user-details-container">
         <p class="user-details-username">{{ userName }}</p>
+        <p v-if="isAdmin">You are an Admin</p>
         <p class="user-details-email">{{ userEmail }}</p>
       </div>
 
@@ -24,12 +25,14 @@ import router from "@/router";
 import userDetails from "@/controller/userController";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
+import store from "@/store";
 
 export default {
   data: () => ({
     userEmail: "abc@example.com",
     userName: "kindly login",
     logoutValue: "Login",
+    isAdmin: store.getters.getAdmin
   }),
   methods: {
     async onLogout() {

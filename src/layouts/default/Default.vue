@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <v-app>
-    <default-bar />
+    <default-bar :key="$route.fullPath"></default-bar>
 
     <default-view />
   </v-app>

@@ -12,15 +12,20 @@ import router from "@/router";
 
     try {
       console.log(data);
-      const res = await fetch("http://localhost:3001/user/login", {
+      const res = await fetch(`${import.meta.env.VITE_URL}/user/login`, {
         method: "POST",
         headers: { "content-Type": "application/json" },
         body: JSON.stringify(data),         
       });
       data = await res.json();
       // this.loading = false;
-      // console.log(data);
       if(data?.success){
+        if(data?.email=="satyams@argusoft.com"){
+          console.log(data);
+          store.commit("setAdmin",true)
+        }else{
+          store.commit("setAdmin",false)
+        }
        store.commit("setToken", data.accessToken);
       localStorage.setItem("token", data.accessToken);
       console.log("token set in localstorage");

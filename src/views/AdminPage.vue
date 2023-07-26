@@ -39,7 +39,7 @@
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
-                      v-model="editedItem.desc"
+                      v-model="editedItem.description"
                       label="Description"
                     ></v-text-field>
                   </v-col>
@@ -51,7 +51,7 @@
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
-                      v-model="editedItem.avail"
+                      v-model="editedItem.availability"
                       label="Availabilty"
                     ></v-text-field>
                   </v-col>
@@ -106,10 +106,11 @@
 
 <script>
 import { VDataTable } from "vuetify/labs/VDataTable";
+import itemController from "../controller/itemController"
 export default {
   async mounted() {
-    console.log("menu called");
-    const res = await fetch("http://localhost:3001/items", {
+    // console.log("menu called");
+    const res = await fetch(`${import.meta.env.VITE_URL}/admin`, {
       method: "GET",
       headers: {
         "content-Type": "application/json",
@@ -120,15 +121,6 @@ export default {
     this.desserts = data.data;
 
     data.data.forEach((desserts) => {
-          // const avail = desserts.availability
-          // // console.log(avail)
-
-          // if (avail===true) {
-          //   desserts.availability = "yes";
-          // } 
-          //  else {
-          //   desserts.availability = "no";
-          // }
           desserts.availability = desserts.availability ?'yes':'no'
 
         });
@@ -152,21 +144,21 @@ export default {
       { title: "Actions", key: "actions", sortable: false },
     ],
     desserts: [],
-    // editedIndex: -1,
-    // editedItem: {
-    //   id: 0,
-    //   name: 0,
-    //   desc: 0,
-    //   price: 0,
-    //   avail: 0,
-    // },
-    // defaultItem: {
-    //   id: 0,
-    //   name: 0,
-    //   desc: 0,
-    //   price: 0,
-    //   avail: 0,
-    // },
+    editedIndex: -1,
+    editedItem: {
+      id: 0,
+      name: 0,
+      description: 0,
+      price: 0,
+      availability: 0,
+    },
+    defaultItem: {
+      id: 0,
+      name: 0,
+      description: 0,
+      price: 0,
+      availability: 0,
+    },
   }),
 
   computed: {
@@ -197,6 +189,7 @@ export default {
     editItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
       this.editedItem = Object.assign({}, item);
+      console.log(item.id, item.name)
       this.dialog = true;
     },
 
@@ -206,7 +199,9 @@ export default {
       this.dialogDelete = true;
     },
 
-    deleteItemConfirm() {
+    async deleteItemConfirm() {
+      const res= await itemController.deleteItem(this.editedItem);
+      if(res)
       this.desserts.splice(this.editedIndex, 1);
       this.closeDelete();
     },
@@ -227,11 +222,16 @@ export default {
       });
     },
 
-    save() {
+    async save() {
       if (this.editedIndex > -1) {
+        const res=await itemController.updateItem(this.editedItem);
+        if(res)
         Object.assign(this.desserts[this.editedIndex], this.editedItem);
       } else {
+        const res= await itemController.addItem(this.editedItem);
+        if(res)
         this.desserts.push(this.editedItem);
+
       }
       this.close();
     },

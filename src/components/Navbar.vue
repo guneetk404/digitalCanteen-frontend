@@ -24,7 +24,12 @@
     </v-menu>
 
     <v-list-item>
-      <router-link to="/" class="hbtn">
+      <router-link v-if="!isAdmin" to="/" class="hbtn">
+        <v-btn color="#802f59">
+          <v-icon icon="mdi-home" />
+        </v-btn>
+      </router-link>
+      <router-link v-if="isAdmin" to="/admin" class="hbtn">
         <v-btn color="#802f59">
           <v-icon icon="mdi-home" />
         </v-btn>
@@ -40,38 +45,7 @@
 
         <v-card min-width="300">
           <v-list>
-            <v-list-item :title="userName" :subtitle="userEmail">
-              <!-- <template v-slot:append>
-              <v-btn
-                variant="text"
-                :class="fav ? 'text-red' : ''"
-                icon="mdi-heart"
-                @click="fav = !fav"
-              ></v-btn>
-            </template> -->
-            </v-list-item>
-          </v-list>
-
-          <!-- <v-divider></v-divider> -->
-
-          <v-list>
-            <!-- <v-list-item>
-            <v-switch
-              v-model="message"
-              color="purple"
-              label="Enable messages"
-              hide-details
-            ></v-switch>
-          </v-list-item> -->
-
-            <!-- <v-list-item>
-            <v-switch
-              v-model="hints"
-              color="purple"
-              label="Enable hints"
-              hide-details
-            ></v-switch>
-          </v-list-item> -->
+            <v-list-item :title="userName" :subtitle="userEmail"> </v-list-item>
           </v-list>
 
           <v-card-actions>
@@ -86,7 +60,7 @@
       </v-menu>
 
       <v-list-item>
-        <router-link to="/user/cart" class="hbtn">
+        <router-link v-if="!isAdmin" to="/user/cart" class="hbtn">
           <v-btn color="#802f59">
             <v-icon icon="mdi-cart" />
           </v-btn>
@@ -98,10 +72,10 @@
 
 <script>
 import router from "@/router";
-// import store from "@/store";
 import userDetails from "@/controller/userController";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
+import store from "@/store";
 
 export default {
   data: () => ({
@@ -116,6 +90,7 @@ export default {
     message: false,
     hints: true,
     userEmail: null,
+    isAdmin: store.getters.getAdmin,
     userName: "login for better experience",
     logoutValue: "Login",
   }),
@@ -127,7 +102,7 @@ export default {
         (this.userEmail = null),
           (this.userName = "Login for better experience"),
           (this.logoutValue = "Login");
-          toast.success("Logged out Successfully", { autoclose: 2000 });
+        toast.success("Logged out Successfully", { autoclose: 2000 });
 
         // console.log("logged out successfully");
       } else {
@@ -139,8 +114,11 @@ export default {
     async onList(name) {
       console.log(name);
       if (name == "Profile") router.push(`/user/profile`);
-
-      if (name == "Menu") router.push(`/`);
+      if(this.isAdmin){
+        if (name == "Menu") router.push(`/admin`);
+      }else{
+        if (name == "Menu") router.push(`/`);
+      }
       if (name == "Cart") router.push(`/user/cart`);
       if (name == "Orders") router.push(`/user/orders`);
     },

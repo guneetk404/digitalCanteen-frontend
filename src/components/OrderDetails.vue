@@ -7,7 +7,8 @@
       <template v-slot:default="{ isActive }">
         <v-card>
           <v-toolbar class="tool1" title="Order Summary">
-            <span class="idcolor"> order id:{{ item.id }} </span>
+            <span class="idcolor">id:{{ item.id }} </span>
+            <!-- <span class="idcolor"> &nbsp{{userName}}  </span> -->
           </v-toolbar>
           <v-card-text>
             <div>
@@ -42,6 +43,8 @@
   </v-col>
 </template>
 <script>
+
+// import userDetails from "@/controller/userController";
 export default {
   props: {
     item: {
@@ -53,6 +56,7 @@ export default {
     return {
       orderItems: [],
       selectedOrderId: null,
+      // userName: "",
     };
   },
   computed: {
@@ -77,6 +81,10 @@ export default {
   },
   async mounted() {
     try {
+      // var data = await userDetails();
+      // if (data.success) {
+      //   this.userName = data.body.name;
+      // }
       var itemName = Object.keys(this.item.items);
       var quantities = Object.values(this.item.items);
       var price = this.item.prices;

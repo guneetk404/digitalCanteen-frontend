@@ -11,24 +11,27 @@
         v-model="email"
         color="#802f59"
         label="Email"
+        :rules="[required]"
         @blur="validateEmail()"
         variant="underlined"
       ></v-text-field>
 
       <v-text-field
-      v-if="showOtpField"
+        v-if="showOtpField"
         v-model="newPassword"
         color="#802f59"
         label="newPassword"
+        @blur="validatePassword()"
         placeholder="Enter your password"
         variant="underlined"
       ></v-text-field>
       <v-text-field
-      v-if="showOtpField"
-        v-model="confirmPasswordpassword"
+        v-if="showOtpField"
+        v-model="confirmPassword"
         color="#802f59"
+        @blur="validateConfirmPassword()"
         label="confirmPassword"
-        placeholder="Enter your password"
+        placeholder="Enter your password again"
         variant="underlined"
       ></v-text-field>
       <v-text-field
@@ -49,7 +52,11 @@
     <v-card-actions>
       <v-spacer></v-spacer>
 
-      <v-btn @click="validateOtp" color="#802f59">
+      <v-btn
+        @click="validateOtp"
+        color="#802f59"
+        :disabled="!email || !newPassword || !confirmPassword || !otp"
+      >
         reset Password
 
         <v-icon icon="mdi-chevron-right" end></v-icon>
@@ -59,6 +66,8 @@
 </template>
 
 <script>
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 export default {
   data: () => ({
     email: null,
@@ -66,64 +75,94 @@ export default {
     confirmPassword: null,
     otp: "",
     showOtpField: false,
+    able: false,
   }),
 
   methods: {
     async handleSubmit() {
-        try {
-          let data = {
-            // name: this.first + " " + this.last,
-            email: this.email,
-            newpassword: this.newPassword,
-            confirmPassword: this.confirmPassword
-          };
-          console.log("inside for sub");
-          const res = await fetch("http://localhost:3001/user/reset", {
-            method: "POST",
-            headers: { "content-Type": "application/json" },
-            body: JSON.stringify(data),
-          });
-          data = await res.json();
-          console.log(data.message);
+      try {
+        if (!this.able) return;
+        let data = {
+          // name: this.first + " " + this.last,
+          email: this.email,
+        };
+        // console.log("inside for sub");
+        const res = await fetch(`${import.meta.env.VITE_URL}/user/reset`, {
+          method: "POST",
+          headers: { "content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        data = await res.json();
+        console.log(data.message);
+        if (data.success) {
+          toast.info("Check your mail for OTP", { autoclose: 2000 });
           this.showOtpField = true;
-
-          // this.$router.push("/login");
-        } catch (error) {
-          console.log(error);
+        } else {
+          toast.error(data.message, { autoclose: 2000 });
         }
+
+        // this.$router.push("/login");
+      } catch (error) {
+        console.log(error);
+      }
     },
     async validateOtp() {
       try {
-        const response = await fetch('http://localhost:3001/user/changepass', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: this.email, // Pass the user's email to the server
-            otp: this.otp,
-            password:this.newPassword // Pass the entered OTP to the server
-          }),
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_URL}/user/changepass`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: this.email,
+              otp: this.otp,
+              password: this.newPassword,
+            }),
+          }
+        );
 
         const data = await response.json();
 
-        if (data.success) {
-          // If the entered OTP is correct, proceed with form submission
-          // await this.handleSubmit();
+        if (data?.success) {
           this.$router.push("/login");
-
+          toast.success(data?.message, { autoclose: 2000 });
         } else {
-          // If the entered OTP is incorrect, show an error message or take appropriate action
-          console.log('Incorrect OTP. Please try again.');
+          toast.error(data?.message, { autoclose: 2000 });
         }
       } catch (error) {
-        console.log('Error validating OTP:', error);
+        toast.error("Some error in client side", { autoclose: 2000 });
+
+        console.log("Error validating OTP:", error);
       }
     },
-    async show(){
-      this.showOtpField = true;
-    }
+    required(v) {
+      return !!v || "Field is required";
+    },
+    validateEmail() {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!this.email.match(emailPattern)) {
+        toast.info("Enter a valid email address:)", { autoclose: 2000 });
+        this.able = false;
+      } else {
+        this.able = true;
+      }
+    },
+    validatePassword() {
+      if (this.newPassword.length < 6) {
+        toast.info("Password must be 6 character long", { autoclose: 2000 });
+      }
+    },
+    validateConfirmPassword() {
+      if (!(this.newPassword === this.confirmPassword)) {
+        toast.info("Both password field should be same", { autoclose: 2000 });
+      }
+    },
+    // async show(){
+    //   this.showOtpField = true;
+    // }
   },
 };
 </script>

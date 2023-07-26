@@ -24,7 +24,7 @@ export default {
   },
   async mounted() {
     // console.log("menu called");
-    const res = await fetch("http://localhost:3001/items", {
+    const res = await fetch(`${import.meta.env.VITE_URL}/items`, {
       method: "GET",
       headers: {
         "content-Type": "application/json",

@@ -33,6 +33,7 @@
         v-model="password"
         color="#802f59"
         label="Password"
+        @blur="validatePassword()"
         placeholder="Enter your password"
         variant="underlined"
       ></v-text-field>
@@ -44,14 +45,13 @@
         label="OTP"
         variant="underlined"
       ></v-text-field>
-
-      <v-checkbox
-        v-model="terms"
-        color="secondary"
-        label="I agree to site terms and conditions"
-      ></v-checkbox>
     </v-container>
-    <v-btn @click="handleSubmit" color="#802f59" v-if="!showOtpField">
+    <v-btn
+      @click="handleSubmit"
+      color="#802f59"
+      :disabled="!email || !password || !first || !last"
+      v-if="!showOtpField"
+    >
       Request OTP
     </v-btn>
     <v-divider></v-divider>
@@ -59,7 +59,11 @@
     <v-card-actions>
       <v-spacer></v-spacer>
 
-      <v-btn @click="validateOtp" color="success">
+      <v-btn
+        @click="validateOtp"
+        :disabled="!email || !password || !first || !last || !otp"
+        color="success"
+      >
         Complete Registration
 
         <v-icon icon="mdi-chevron-right" end></v-icon>
@@ -69,7 +73,7 @@
 </template>
 
 <script>
-// import { toast } from "vue3-toastify";
+import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
 export default {
@@ -94,70 +98,53 @@ export default {
           // Your sign-up form submission logic here
           // For example, you can send the form data to a server
           // console.log(data)
-          const res = await fetch("http://localhost:3001/user/signup", {
+          const res = await fetch(`${import.meta.env.VITE_URL}/user/signup`, {
             method: "POST",
             headers: { "content-Type": "application/json" },
             body: JSON.stringify(data),
           });
           data = await res.json();
+          if (data?.success) {
+            toast.info("Check your mail for OTP", { autoclose: 2000 });
+            this.showOtpField = true;
+          } else {
+            toast.error(data.message, { autoclose: 2000 });
+          }
           console.log(data.message);
-          this.showOtpField = true;
-
           // this.$router.push("/login");
         } catch (error) {
           console.log(error);
         }
       }
     },
-    // async requestOtp() {
-    //   try {
-    //     // Make an HTTP POST request to your server to request OTP
-    //     const response = await fetch('http://localhost:3001/user/otp', {
-    //       method: 'POST',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //       body: JSON.stringify({
-    //         email: this.email, // Pass the user's email to the server
-    //       }),
-    //     });
-
-    //     const data = await response.json();
-
-    //     if (data.success) {
-    //       // Show the OTP field and clear any previous OTP
-    //       this.showOtpField = true;
-    //       this.otp = '';
-    //     } else {
-    //       console.log('Failed to request OTP. Please try again.');
-    //     }
-    //   } catch (error) {
-    //     console.log('Error requesting OTP:', error);
-    //   }
-    // },
     async validateOtp() {
       try {
         // Make an HTTP POST request to your server to validate the entered OTP
-        const response = await fetch("http://localhost:3001/user/validate", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: this.email, // Pass the user's email to the server
-            otp: this.otp, // Pass the entered OTP to the server
-          }),
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_URL}/user/validate`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: this.email, // Pass the user's email to the server
+              otp: this.otp, // Pass the entered OTP to the server
+            }),
+          }
+        );
 
         const data = await response.json();
 
-        if (data.success) {
-          // If the entered OTP is correct, proceed with form submission
-          // await this.handleSubmit();
+        if (data?.success) {
+          toast.info(data.message, { autoclose: 2000 });
+
           this.$router.push("/login");
         } else {
+          toast.error(data?.message, { autoclose: 2000 });
+
           // If the entered OTP is incorrect, show an error message or take appropriate action
-          console.log("Incorrect OTP. Please try again.");
+          // console.log("Incorrect OTP. Please try again.");
         }
       } catch (error) {
         console.log("Error validating OTP:", error);
@@ -165,15 +152,16 @@ export default {
     },
 
     validateEmail() {
-      console.log("inside validateEmail");
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       if (!this.email.match(emailPattern)) {
-        this.emailError = "Please enter a valid email address.";
-      } else {
-        this.emailError = "";
+        toast.info("Enter a valid email address:)", { autoclose: 2000 });
       }
-      console.log(this.emailError);
+    },
+    validatePassword() {
+      if (this.password.length < 6) {
+        toast.info("Password must be 6 char long", { autoclose: 2000 });
+      }
     },
   },
 };

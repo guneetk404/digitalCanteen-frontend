@@ -2,7 +2,22 @@
 <template>
   <div class="container">
     <div v-if="cartItems.length === 0">
-      <p>Your cart is empty! </p>
+      <div class="py-6 py-lg-12">
+        <div class="container">
+            <div class="row">
+                <div class="offset-lg-3 col-lg-6 col-md-12 col-12 text-center">
+                    <img src="../assets/bag.png" alt="" class="img-fluid mb-4">
+                    <h2>Your shopping cart is empty</h2>
+                    <!-- <p class="mb-4">
+                        Return to the store to add items for your delivery slot. Before proceed to checkout you must add some products to your shopping cart. You will find a lot of interesting products on our shop page.
+                    </p> -->
+                    <router-link to="/">
+                      <a  class="addp">Explore Menu</a>
+                    </router-link>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
     <div v-else class="text-content">
       <h2 class="title">Order Summary</h2>
@@ -47,22 +62,21 @@
 </template>
 <script>
 // import store from "@/store";
-import orderController from "../controller/orderController"
+import orderController from "../controller/orderController";
 // import {toast} from 'vue3-toastify';
-import 'vue3-toastify/dist/index.css'
+import "vue3-toastify/dist/index.css";
 
 export default {
   data() {
     return {
-      cartItems: [
-      ],
-      total:0
+      cartItems: [],
+      total: 0,
     };
   },
   methods: {
     async removeItem(item) {
       const index = this.cartItems.indexOf(item);
-       this.cartItems.splice(index, 1);
+      this.cartItems.splice(index, 1);
       try {
         await this.$store.commit("updateCart", this.cartItems);
         // console.log("do payment", this.cartItems);
@@ -74,11 +88,11 @@ export default {
       if (item.quantity > 1) {
         item.quantity--;
         try {
-        await this.$store.commit("updateCart", this.cartItems);
-        // console.log("do payment", this.cartItems);
-      } catch (error) {
-        console.log("error", error);
-      }
+          await this.$store.commit("updateCart", this.cartItems);
+          // console.log("do payment", this.cartItems);
+        } catch (error) {
+          console.log("error", error);
+        }
       }
     },
     async increaseQuantity(item) {
@@ -86,28 +100,25 @@ export default {
       // console.log("do payment", this.cartItems);
       item.quantity++;
       try {
-       await this.$store.commit("updateCart", this.cartItems);
+        await this.$store.commit("updateCart", this.cartItems);
         // console.log("do payment", this.cartItems);
       } catch (error) {
-
         console.log("error", error);
       }
-      
     },
     getTotalPrice() {
-      this.total=this.cartItems
+      this.total = this.cartItems
         .reduce((total, item) => {
           return total + item.price * item.quantity;
         }, 0)
         .toFixed(2);
-        return this.total;
+      return this.total;
     },
-    async checkout(){
+    async checkout() {
       // console.log('cart items are', this.cartItems[0].name)
-      await orderController.createOrders(this.total,this.cartItems);
+      await orderController.createOrders(this.total, this.cartItems);
       // flag?toast.success(`Order placed successfully and order details has been mailed to you`):toast.error('Not able to place ypur order right now');
-
-    }
+    },
   },
   async beforeMount() {
     try {
@@ -170,7 +181,7 @@ body {
   display: flex;
   padding: 25px;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
   padding: 25px !important;
 }
 .plan-box-left {
@@ -314,7 +325,35 @@ button {
   width: 100%;
   margin-top: 20px;
 }
-p{
+p {
   text-align: center;
+}
+.mb-4 {
+    margin-bottom: 1.5rem!important;
+}
+.img-fluid, .img-thumbnail {
+    height: auto;
+    max-width: 100%;
+}
+img, svg {
+    vertical-align: middle;
+}
+.text-center {
+    text-align: center!important;
+}
+.col-12 {
+    flex: 0 0 auto;
+    width: 100%;
+}
+.offset-lg-3 {
+    margin-right: 25%;
+}
+.col-lg-6 {
+    flex: 0 0 auto;
+    width: 50%;
+}
+a{
+  margin-top: 20px;
+  text-decoration: none;
 }
 </style>

@@ -11,14 +11,18 @@ export default createStore({
     return {
       token: null,
       cartItems: [],
+      isAdmin: false
     };
   },
   mutations: {
     setToken(state, payload) {
       state.token = payload;
     },
+    setAdmin(state, payload) {
+      state.isAdmin=payload;
+    },
     setCart(state, payload) {
-      console.log(payload.quantity);
+      // console.log(payload.quantity);
       var found = false;
       state.cartItems.forEach((e) => {
         console.log(e);
@@ -46,6 +50,9 @@ export default createStore({
     getCart(state) {
       return state.cartItems;
     },
+    getAdmin(state){
+      return state.isAdmin;
+    }
   },
   modules: {},
 });

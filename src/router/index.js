@@ -100,6 +100,17 @@ const routes = [
     ],
   },
   {
+    path: "/admin/orders",
+    component: () => import("@/layouts/default/Default.vue"),
+    children: [
+      {
+        path: "",
+        name: "adminOrders",
+        component: () => import("@/views/Orders.vue"),
+      },
+    ],
+  },
+  {
     path: "/:catchAll(.*)",
     component: () => import("@/layouts/default/Default.vue"),
     children: [
@@ -121,22 +132,16 @@ router.beforeEach((to) => {
     localStorage.clear();
     store.commit("setToken", null);
     router.push("/login");
+    // toast.success("You have been successfully logged out", { autoclose: 2000 });
   }
-  // if(to.path=='/login'){
-  //   const token= localStorage.getItem('token')
-  //   console.log('in routes login page', from.path)
-  //   if(token && token===store.getters.getToken){
 
-  //     console.log('you are already logged in')
-  //     router.push('/')
-  //   }
-  // }
   if (to.path == "/signup" || to.path == "/login") {
     const token = localStorage.getItem("token");
     console.log("in routes login page");
     if (token && token === store.getters.getToken) {
       console.log("you are already logged in");
       router.push("/");
+      toast.info("You are already logged in", { autoclose: 2000 });
     }
   }
   if (
@@ -148,66 +153,17 @@ router.beforeEach((to) => {
     const token = localStorage.getItem("token");
     console.log("in routes user verification page");
     if (!(token && token === store.getters.getToken)) {
-      toast.info("Please login first", { autoclose: 2000 });
       // console.log('Please login first')
       router.push("/login");
+      toast.info("Please login first", { autoclose: 2000 });
+      return;
+    }
+    if (store.getters.getAdmin && (to.path == "/user/cart" || to.path == "/")) {
+      router.push("/admin");
+      toast.info("You can only access admin pages", { autoclose: 2000 });
     }
   }
   return true;
 });
 
 export default router;
-
-// import { createRouter, createWebHistory } from 'vue-router'
-// //import Menu from '../views/Menu.vue'
-// import Login from '../views/Login.vue'
-// import Home from '../views/Home'
-// // import Signup from '../views/Signup.vue'
-// // import Cart from '../views/Cart.vue'
-// // import User from '../views/User'
-// const routes = [
-//   {
-//     path: '/',
-//     name: 'HelloWorld',
-//     component: Home
-//   },
-//   {
-//     path: '/login',
-//     name: 'Login',
-//     component: Login
-//   },
-//   // {
-//   //   path: '/user/:id',
-//   //   name: 'User',
-//   //   component: User,
-//   //   props: true
-//   // },
-//   // {
-//   //   path: '/signup',
-//   //   name: 'Signup',
-//   //   component: Signup
-//   // },
-//   // {
-//   //   path: '/cart',
-//   //   name: 'Cart',
-//   //   component: Cart
-//   // }
-// ]
-// // const routes = [
-// //   {
-// //     path: '/',
-// //     component: () => import('@/layouts/default/Default.vue'),
-// //     children: [
-// //       {
-// //         path: '',
-// //         name: 'Home',
-// //         component: () => import( '@/views/Menu.vue'),
-// //       },
-// //     ],
-// //   },
-// // ]
-// const router = createRouter({
-//   history: createWebHistory(process.env.BASE_URL),
-//   routes,
-// })
-// export default router
