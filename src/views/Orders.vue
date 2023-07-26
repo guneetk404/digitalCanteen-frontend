@@ -71,6 +71,7 @@ export default {
       const data = await orderController.userOrders();
       if (data?.success) {
         toast.success("Your all orders are here:)", { autoclose: 2000 });
+        console.log(data.data)
 
         // console.log(data.data)
         this.orders = data.data;

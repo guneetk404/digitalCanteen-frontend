@@ -43,7 +43,6 @@
   </v-col>
 </template>
 <script>
-
 // import userDetails from "@/controller/userController";
 export default {
   props: {
@@ -86,14 +85,15 @@ export default {
       //   this.userName = data.body.name;
       // }
       var itemName = Object.keys(this.item.items);
-      var quantities = Object.values(this.item.items);
-      var price = this.item.prices;
+      var arr = Object.values(this.item.items);
+      // var quantities = arr[0];
+      // var price = arr[1];
       // console.log(this.item.items)
       for (let i = 0; i < itemName.length; i++) {
         this.orderItems.push({
           name: itemName[i],
-          quantity: quantities[i],
-          price: price[i],
+          quantity: arr[i][0],
+          price: arr[i][1],
         });
       }
       // console.log(price);
@@ -105,7 +105,7 @@ export default {
 </script>
 <style>
 .tool1 {
-  background-color:#802f59 !important;
+  background-color: #802f59 !important;
   color: white !important;
 }
 table {
