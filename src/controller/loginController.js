@@ -11,7 +11,7 @@ import router from "@/router";
     // setTimeout(() => (this.loading = false), 2000)
 
     try {
-      console.log(data);
+      // console.log(data);
       const res = await fetch(`${import.meta.env.VITE_URL}/user/login`, {
         method: "POST",
         headers: { "content-Type": "application/json" },

@@ -52,12 +52,12 @@ export default {
   methods: {
     async incrementQuantity() {
       this.quantity++;
-      console.log(this.item)
+      // console.log(this.item)
       if (this.quantity) {
         var k = this.item;
 
         k.quantity = this.quantity;
-        console.log(k.quantity);
+        // console.log(k.quantity);
         await this.$store.commit("setCart", k);
       }
     },
@@ -66,7 +66,6 @@ export default {
         this.quantity--;
         if (this.quantity) {
           var k = this.item;
-
           k.quantity = this.quantity;
           await this.$store.commit("setCart", k);
         }

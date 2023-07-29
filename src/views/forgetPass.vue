@@ -42,7 +42,7 @@
         variant="underlined"
       ></v-text-field>
 
-      <v-btn @click="handleSubmit" color="#802f59" v-if="!showOtpField">
+      <v-btn class="rbtn" @click="handleSubmit" color="#802f59" v-if="!showOtpField">
         Request OTP
       </v-btn>
     </v-container>
@@ -166,3 +166,9 @@ export default {
   },
 };
 </script>
+<style>
+.rbtn {
+  color: white !important;
+  margin-left:80px
+}
+</style>

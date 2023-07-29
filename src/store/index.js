@@ -11,7 +11,7 @@ export default createStore({
     return {
       token: null,
       cartItems: [],
-      isAdmin: false
+      isAdmin: false,
     };
   },
   mutations: {
@@ -19,21 +19,24 @@ export default createStore({
       state.token = payload;
     },
     setAdmin(state, payload) {
-      state.isAdmin=payload;
+      state.isAdmin = payload;
     },
-    setCart(state, payload) {
-      // console.log(payload.quantity);
+    async setCart(state, payload) {
       var found = false;
-      state.cartItems.forEach((e) => {
-        console.log(e);
+      var cart = state.cartItems;
+
+      cart.forEach((e) => {
+        // console.log(e, "rr", payload);
         if (e.id == payload.id) {
-          e.quantity++;
           found = true;
           return;
         }
       });
-      if (!found) state.cartItems.push(payload);
-      found = false;
+      if (!found) {
+        console.log('me')
+        state.cartItems.push(payload);
+        found=true;
+      }
     },
     updateCart(state, payload) {
       state.cartItems = payload;
@@ -50,9 +53,9 @@ export default createStore({
     getCart(state) {
       return state.cartItems;
     },
-    getAdmin(state){
+    getAdmin(state) {
       return state.isAdmin;
-    }
+    },
   },
   modules: {},
 });

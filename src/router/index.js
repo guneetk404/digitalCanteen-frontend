@@ -127,20 +127,27 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
-router.beforeEach((to) => {
+router.beforeEach(async (to) => {
   if (to.path == "/logout") {
     localStorage.clear();
     store.commit("setToken", null);
     router.push("/login");
     // toast.success("You have been successfully logged out", { autoclose: 2000 });
   }
+  if(to.path=="/admin"){
+    if(!store.getters.getAdmin){
+      await router.push("/")
+      toast.info("You are not authorized to visit this page", { autoclose: 2000 });
+    }
+
+  }
 
   if (to.path == "/signup" || to.path == "/login") {
     const token = localStorage.getItem("token");
     console.log("in routes login page");
     if (token && token === store.getters.getToken) {
-      console.log("you are already logged in");
-      router.push("/");
+      // console.log("you are already logged in");
+      await router.push("/");
       toast.info("You are already logged in", { autoclose: 2000 });
     }
   }
@@ -154,13 +161,13 @@ router.beforeEach((to) => {
     console.log("in routes user verification page");
     if (!(token && token === store.getters.getToken)) {
       // console.log('Please login first')
-      router.push("/login");
+      await router.push("/login");
       toast.info("Please login first", { autoclose: 2000 });
       return;
     }
     if (store.getters.getAdmin && (to.path == "/user/cart" || to.path == "/")) {
-      router.push("/admin");
-      toast.info("You can only access admin pages", { autoclose: 2000 });
+      await router.push("/admin");
+      // toast.info("You can only access admin pages", { autoclose: 2000 });
     }
   }
   return true;

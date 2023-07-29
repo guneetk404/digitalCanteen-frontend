@@ -47,6 +47,7 @@
       ></v-text-field>
     </v-container>
     <v-btn
+    class="rotp"
       @click="handleSubmit"
       color="#802f59"
       :disabled="!email || !password || !first || !last"
@@ -166,3 +167,14 @@ export default {
   },
 };
 </script>
+
+<style>
+
+.rotp{
+  color: white !important;
+  margin-left:100px;
+  margin-bottom: 20px;
+
+}
+
+</style>

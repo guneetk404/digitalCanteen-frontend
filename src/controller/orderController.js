@@ -66,9 +66,9 @@ const createOrders = async (totalPrice, cartItems) => {
         key: data.keyId,
         amount: data.amount,
         currency: "INR",
-        name: "Digital Canteen",
+        name: "Argus Canteen",
         description: "YOu are about to pay for your order",
-        image: "https://dummyimage.com/600x400/000/fff",
+        image: "../assets/logo.png",
         order_id: data.orderId,
         handler: async function () {
           console.log("Payment Succeeded");

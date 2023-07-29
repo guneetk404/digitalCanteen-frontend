@@ -69,9 +69,9 @@ export default {
         if (await tryLogin(data)) {
           this.loading = false;
           if (store.getters.getAdmin) {
-            this.$router.push("/admin");
+            await this.$router.push("/admin");
           } else {
-            this.$router.push("/");
+            await this.$router.push("/");
           }
           toast.success("Successfully Logged in:)", { autoclose: 2000 });
           return;

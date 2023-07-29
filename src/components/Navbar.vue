@@ -36,6 +36,13 @@
       </router-link>
     </v-list-item>
     <template v-slot:append>
+      <v-list-item>
+        <router-link v-if="!isAdmin" to="/user/cart" class="hbtn">
+          <v-btn color="#802f59">
+            <v-icon icon="mdi-cart" />
+          </v-btn>
+        </router-link>
+      </v-list-item>
       <v-menu v-model="menu" :close-on-content-click="false" location="end">
         <template v-slot:activator="{ props }">
           <v-btn color="#802f59" v-bind="props">
@@ -59,13 +66,7 @@
         </v-card>
       </v-menu>
 
-      <v-list-item>
-        <router-link v-if="!isAdmin" to="/user/cart" class="hbtn">
-          <v-btn color="#802f59">
-            <v-icon icon="mdi-cart" />
-          </v-btn>
-        </router-link>
-      </v-list-item>
+      
     </template>
   </v-app-bar>
 </template>
@@ -98,7 +99,10 @@ export default {
     async onLogout() {
       this.menu = false;
       if (this.logoutValue == "Logout") {
-        router.push("/logout");
+        if(store.getters.getAdmin){
+          store.commit("setAdmin",false);
+        } 
+        await router.push("/logout");
         (this.userEmail = null),
           (this.userName = "Login for better experience"),
           (this.logoutValue = "Login");
@@ -108,7 +112,7 @@ export default {
       } else {
         // toast.error("Something went wrong in logout", { autoclose: 2000 });
 
-        router.push("/login");
+        await router.push("/login");
       }
     },
     async onList(name) {

@@ -43,7 +43,7 @@ const deleteItem = async (item) => {
 const updateItem = async (item) => {
   if ((await store.getters.getToken) && (await store.getters.getAdmin)) {
     // console.log("mounted in orders page");
-    const res = await fetch(`${import.meta.env.VITE_URL}admin/update`, {
+    const res = await fetch(`${import.meta.env.VITE_URL}/admin/update`, {
       method: "POST",
       headers: {
         "content-Type": "application/json",
@@ -55,7 +55,7 @@ const updateItem = async (item) => {
     // console.log(data.items)
     return data;
   } else {
-    toast.info("Kindly log in/ not admin", { autoclose: 2000 });
+    toast.info("Kindly log in/ Not admin", { autoclose: 2000 });
   }
 };
 
