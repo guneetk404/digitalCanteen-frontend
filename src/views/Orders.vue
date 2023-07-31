@@ -78,10 +78,32 @@ export default {
         data.data.forEach((order) => {
           // console.log(order, "ww");
           const timestamp = new Date(Number(order.id));
+          // var year = timestamp.getFullYear();
+          // var mes = timestamp.getMonth() + 1;
+          // var dia = timestamp.getDate();
+          // var fecha = dia + "-" + mes + "-" + year;
+          // order.date = fecha;
           var year = timestamp.getFullYear();
           var mes = timestamp.getMonth() + 1;
           var dia = timestamp.getDate();
-          var fecha = dia + "-" + mes + "-" + year;
+          var hora = timestamp.getHours(); // Extract the hour (0-23)
+          var minuto = timestamp.getMinutes(); // Extract the minute (0-59)
+          var segundo = timestamp.getSeconds();
+          // console.log("time", t);
+          // var fecha = dia + "-" + mes + "-" + year;
+          // order.date = fecha;
+          var fecha =
+            dia +
+            "-" +
+            mes +
+            "-" +
+            year +
+            " " +
+            hora +
+            ":" +
+            minuto +
+            ":" +
+            segundo;
           order.date = fecha;
           // console.log(order.date)
           // var time = new Date(timestamp * 1000).toTimeString()

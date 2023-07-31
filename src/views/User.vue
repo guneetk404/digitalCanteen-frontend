@@ -187,6 +187,7 @@ export default {
   font-size: 1.5rem;
 }
 .edit-name-input {
+  color: white;
   width: 100%;
   max-width: 200px;
   padding: 8px;
@@ -207,12 +208,20 @@ export default {
   cursor: pointer;
 }
 .edit-buttons button:first-child {
-  background-color: #2196f3;
-  color: white;
+  background-color: white;
+  color: black;
+  padding: 10px;
+  padding-right: 30px;
+  padding-left: 30px;
+  border-radius: 5px;
 }
 .edit-buttons button:last-child {
-  background-color: #ccc;
-  color: #333;
+  background-color: white;
+  color: black;
+  padding: 10px;
+  padding-right: 30px;
+  padding-left: 30px;
+  border-radius: 5px;
 }
 .edit-name-button {
   margin-top: 10px;
